@@ -1,15 +1,19 @@
 package uk.ac.ed.bikerental;
 
-import java.math.BigDecimal;
-import java.util.Objects;
+
+	import java.math.BigDecimal;
+	import java.util.Objects;
 
 	
+	
+	
+
 	public class BikeType {
 		
 		protected String type;
 		private BigDecimal replacementValue;//Original price assumed to equal this
 		private BigDecimal dailyPrice;
-		private BigDecimal depositRate;
+		//private BigDecimal depositRate;
 		
 		
 		
@@ -56,3 +60,4 @@ import java.util.Objects;
 		
 		
 	}
+
