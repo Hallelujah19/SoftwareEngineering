@@ -1,5 +1,3 @@
-package uk.ac.ed.bikerental;
-
 public class Location {
     private String postcode;
     private String address;
@@ -11,11 +9,13 @@ public class Location {
     }
     
     public boolean isNearTo(Location other) {
-        // TODO: Implement Location.isNearTo
-        assert false;
-        return true;
+        if (other == null)
+        	return false;
+        if (this.getPostcode().substring(0,3).equals(other.getPostcode().substring(0, 3)))
+        	return true;
+        return false;
     }
-
+    
     public String getPostcode() {
         return postcode;
     }
@@ -24,5 +24,4 @@ public class Location {
         return address;
     }
     
-    // You can add your own methods here
 }
