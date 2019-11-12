@@ -17,7 +17,7 @@ public class Bike {
 	private BikeStatus bikeStatus;
 	private BikeType bikeType;
 	private BigDecimal originalValue; // set to the initial replacement value
-	private String bookingId; // set to booking number
+	private String bookingNumber; 
 	private DateRange dateRange;
 	private DepositStatus depositStatus;
 	
@@ -39,10 +39,10 @@ public class Bike {
 		return originalValue;
 	}
 
-	public String getBookingId() {
-		return bookingId;
+	public String getBookingNumber() {
+		return bookingNumber;
 	}
-
+	
 	public DateRange getDateRange() {
 		return dateRange;
 	}
@@ -59,8 +59,8 @@ public class Bike {
 		this.originalValue = originalValue;
 	}
 
-	public void setBookingId(String bookingId) {
-		this.bookingId = bookingId;
+	public void setBookingNumber(String bookingNumber) {
+		this.bookingNumber = bookingNumber;
 	}
 
 	public void setDateRange(DateRange dateRange) {
