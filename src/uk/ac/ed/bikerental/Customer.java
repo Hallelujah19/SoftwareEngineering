@@ -7,11 +7,17 @@ public class Customer {
 		LOCAL,TOURIST
 	}
 	
+	public static enum CollectionMode {
+		IN_STORE, DELIVERY
+	}
+	
+	private Location customerLocation;
+	private CollectionMode mode;
 	private CustomerStatus customerStatus;
 	private int numberOfBikes;
-	private Collection bikeTypesOfInterest;
-	private HashMap indexedListOfQuotes;
-	private Collection chosenQuotes;
+	private Collection<String> bikeTypesOfInterest; // names of bike types
+	private HashMap<Integer, Quote> indexedListOfQuotes;
+	private Collection<Quote> chosenQuotes;
 	private int indexOfChosenQuote;
 	
 	public Quote selectQuote() {
@@ -80,5 +86,21 @@ public class Customer {
 		return getIndexOfChosenQuote();
 	}
 	
+	public void setCustomerLocation(Location customerLocation) {
+		this.customerLocation = customerLocation;
+	}
+	
+	public Location getCustomerLocation() {
+		return customerLocation;
+	}
 
+	public CollectionMode getMode() {
+		return mode;
+	}
+
+	public void setMode(CollectionMode mode) {
+		this.mode = mode;
+	}
+	
 }
+
