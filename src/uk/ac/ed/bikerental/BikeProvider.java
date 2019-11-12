@@ -1,3 +1,4 @@
+
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,10 +13,16 @@ public class BikeProvider {
 	private BikeProvider partnerProvider;
 	private String messageFromPartner;
 	private String messageToPartner;
-	private Collection<String> idOfReturnedBikes;
+	private Collection<String> idsOfReturnedBikes;
 	private HashMap<BikeType,Integer> numOfBikesPerType;
-	private HashMap<BikeType,Integer> dailyPricePerBikeType;
-	private HashMap<BikeType,Integer> depositRatePerBikeType;
+	private HashMap<BikeType, BigDecimal> dailyPricePerBikeType;
+	private BigDecimal depositRate;
+	
+	public BikeProvider (String name, Location shopLocation,OpeningHours openingHours) {
+		this.name = name;
+		this.shopLocation = shopLocation;
+		this.openingHours = openingHours;
+	}
 	
 	public String getName() {
 		return name;
@@ -41,19 +48,16 @@ public class BikeProvider {
 	public String getMessageToPartner() {
 		return messageToPartner;
 	}
-	public Collection<String> getIdOfReturnedBikes() {
-		return idOfReturnedBikes;
+	public Collection<String> getIdsOfReturnedBikes() {
+		return idsOfReturnedBikes;
 	}
 	public HashMap<BikeType, Integer> getNumOfBikesPerType() {
 		return numOfBikesPerType;
 	}
-	public HashMap<BikeType, Integer> getDailyPricePerBikeType() {
+	public HashMap<BikeType, BigDecimal> getDailyPricePerBikeType() {
 		return dailyPricePerBikeType;
 	}
-	public HashMap<BikeType, Integer> getDepositRatePerBikeType() {
-		return depositRatePerBikeType;
-	}
-	public void setName(String name) {
+	public void updateName(String name) {
 		this.name = name;
 	}
 	public void setStockOfBikes(HashMap<BikeType, Integer> stockOfBikes) {
@@ -62,11 +66,17 @@ public class BikeProvider {
 	public void setBikes(Collection<Bike> bikes) {
 		this.bikes = bikes;
 	}
-	public void setShopLocation(Location shopLocation) {
+	public void updateShopLocation(Location shopLocation) {
 		this.shopLocation = shopLocation;
 	}
-	public void setOpeningHours(OpeningHours openingHours) {
+	public void updateOpeningHours(OpeningHours openingHours) {
 		this.openingHours = openingHours;
+	}
+	public BigDecimal getDepositRate() {
+		return depositRate;
+	}
+	public void setDepositRate(BigDecimal depositRate) {
+		this.depositRate = depositRate;
 	}
 	public void setPartnerProvider(BikeProvider partnerProvider) {
 		this.partnerProvider = partnerProvider;
@@ -77,19 +87,14 @@ public class BikeProvider {
 	public void setMessageToPartner(String messageToPartner) {
 		this.messageToPartner = messageToPartner;
 	}
-	public void setIdOfReturnedBikes(Collection<String> idOfReturnedBikes) {
-		this.idOfReturnedBikes = idOfReturnedBikes;
+	public void setIdsOfReturnedBikes(Collection<String> idsOfReturnedBikes) {
+		this.idsOfReturnedBikes = idsOfReturnedBikes;
 	}
 	public void setNumOfBikesPerType(HashMap<BikeType, Integer> numOfBikesPerType) {
 		this.numOfBikesPerType = numOfBikesPerType;
 	}
-	public void setDailyPricePerBikeType(HashMap<BikeType, Integer> dailyPricePerBikeType) {
+	public void setDailyPricePerBikeType(HashMap<BikeType, BigDecimal> dailyPricePerBikeType) {
 		this.dailyPricePerBikeType = dailyPricePerBikeType;
 	}
-	public void setDepositRatePerBikeType(HashMap<BikeType, Integer> depositRatePerBikeType) {
-		this.depositRatePerBikeType = depositRatePerBikeType;
-	}
 	
-	
-
 }
