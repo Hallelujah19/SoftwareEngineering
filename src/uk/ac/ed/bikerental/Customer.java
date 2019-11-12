@@ -1,4 +1,3 @@
-import java.util.Collection;
 import java.util.HashMap;
 
 public class Customer {
@@ -14,14 +13,9 @@ public class Customer {
 	private Location customerLocation;
 	private CollectionMode mode;
 	private CustomerStatus customerStatus;
-	private int numberOfBikes;
-	/*there should be a link between the number oof bikes and types of those bikes needed there is no way to do this in here
-	 suggest use of 
-	 private int [pair<BikeType,Integer>]numOfBikesWithType;
-	 insteasd of numbers and types separately */
-	private Collection<String> bikeTypesOfInterest; // names of bike types
+	private HashMap<String, Integer> numberOfBikesPerType; // string represent names of bike types
 	private HashMap<Integer, Quote> indexedListOfQuotes;
-	private Collection<Quote> chosenQuotes;
+	private Quote chosenQuote;
 	private int indexOfChosenQuote;
 	
 	public Quote selectQuote() {
@@ -30,8 +24,7 @@ public class Customer {
 	}
 	
 	public void BrowseQuotes() {
-		
-		
+			
 	}
 	
 	public void goToBooking(Quote quote) {
@@ -46,48 +39,40 @@ public class Customer {
 		this.customerStatus = customerStatus;
 	}
 
-	public void setNumberOfBikes(int numberOfBikes) {
-		this.numberOfBikes = numberOfBikes;
-	}
-
-	public void setBikeTypesOfInterest(Collection bikeTypesOfInterest) {
-		this.bikeTypesOfInterest = bikeTypesOfInterest;
-	}
-
-	public void setIndexedListOfQuotes(HashMap indexedListOfQuotes) {
+	public void setIndexedListOfQuotes(HashMap<Integer, Quote> indexedListOfQuotes) {
 		this.indexedListOfQuotes = indexedListOfQuotes;
 	}
 
-	public void setChosenQuotes(Collection chosenQuotes) {
-		this.chosenQuotes = chosenQuotes;
+	public void setChosenQuote(Quote chosenQuote) {
+		this.chosenQuote = chosenQuote;
 	}
 
-	public void setIndexOfChoesnQuote(int indexOfChoesnQuote) {
-		this.indexOfChosenQuote = indexOfChoesnQuote;
+	public void setIndexOfChosenQuote(int indexOfChosenQuote) {
+		this.indexOfChosenQuote = indexOfChosenQuote;
 	}
 
 	public CustomerStatus getCustomerStatus() {
 		return customerStatus;
 	}
-
-	public int getNumberOfBikes() {
-		return numberOfBikes;
+	
+	public HashMap<String, Integer> getNumberOfBikesPerType() {
+		return numberOfBikesPerType;
 	}
 
-	public Collection getBikeTypesOfInterest() {
-		return bikeTypesOfInterest;
+	public void setNumberOfBikesPerType(HashMap<String, Integer> numberOfBikesPerType) {
+		this.numberOfBikesPerType = numberOfBikesPerType;
 	}
 
-	public HashMap getIndexedListOfQuotes() {
+	public HashMap<Integer, Quote> getIndexedListOfQuotes() {
 		return indexedListOfQuotes;
 	}
 
-	public Collection getChosenQuotes() {
-		return chosenQuotes;
+	public Quote getChosenQuote() {
+		return chosenQuote;
 	}
-
+	
 	public int getIndexOfChosenQuote() {
-		return getIndexOfChosenQuote();
+		return indexOfChosenQuote;
 	}
 	
 	public void setCustomerLocation(Location customerLocation) {
@@ -107,4 +92,5 @@ public class Customer {
 	}
 	
 }
+
 
