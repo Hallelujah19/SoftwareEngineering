@@ -10,54 +10,25 @@ package uk.ac.ed.bikerental;
 
 	public class BikeType {
 		
-		protected String type;
+		protected String typeName;
 		private BigDecimal replacementValue;//Original price assumed to equal this
-		private BigDecimal dailyPrice;
-		//private BigDecimal depositRate;
 		
-		
-		
-		public String getType() {
-			return this.type;
+		public String getTypeName() {
+			return typeName;
 		}
 
-
-		public void setType(String type) {
-			this.type = type;
+		public void setTypeName(String typeName) {
+			this.typeName = typeName;
 		}
-
 
 		public BigDecimal getReplacementValue() {
 	        // TODO: Implement Bike.getReplacementValue
-	       return this.replacementValue;
-	    }
-
+	          return replacementValue;
+	        }
 
 		public void setReplacementValue(BigDecimal replacementValue) {
 			this.replacementValue = replacementValue;
 		}
-
-
-		public void setDailyPrice(BigDecimal dailyPrice) {
-			this.dailyPrice = dailyPrice;
-		}
-
-
-		public void setDepositRate(BigDecimal depositRate) {
-			this.depositRate = depositRate;
-		}
-
-
-		public BigDecimal getDailyPrice() {
-			return dailyPrice;
-		}
-
-
-		public BigDecimal getDepositRate() {
-			return depositRate;
-		}
-		
-		
-		
+			
 	}
 
