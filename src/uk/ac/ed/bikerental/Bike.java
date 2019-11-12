@@ -1,4 +1,3 @@
-
 import java.math.BigDecimal;
 
 public class Bike {
@@ -18,7 +17,7 @@ public class Bike {
 	private BikeStatus bikeStatus;
 	private BikeType bikeType;
 	private BigDecimal originalValue; // set to the initial replacement value
-	private String bikeId;
+	private String bookingId; // set to booking number
 	private DateRange dateRange;
 	private DepositStatus depositStatus;
 	
@@ -40,8 +39,8 @@ public class Bike {
 		return originalValue;
 	}
 
-	public String getBikeId() {
-		return bikeId;
+	public String getBookingId() {
+		return bookingId;
 	}
 
 	public DateRange getDateRange() {
@@ -60,8 +59,8 @@ public class Bike {
 		this.originalValue = originalValue;
 	}
 
-	public void setBikeId(String bikeId) {
-		this.bikeId = bikeId;
+	public void setBookingId(String bookingId) {
+		this.bookingId = bookingId;
 	}
 
 	public void setDateRange(DateRange dateRange) {
