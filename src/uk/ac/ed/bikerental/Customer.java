@@ -40,7 +40,9 @@ public class Customer {
 	}
 
 	public void setIndexedListOfQuotes(HashMap<Integer, Quote> indexedListOfQuotes) {
-		this.indexedListOfQuotes = indexedListOfQuotes;
+		HasMap<Integer,Quote> search=filterQoutes(Biketype b,Integer number,Location l);//not finished
+		
+		this.indexedListOfQuotes = search;
 	}
 
 	public void setChosenQuote(Quote chosenQuote) {
