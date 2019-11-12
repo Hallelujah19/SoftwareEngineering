@@ -15,6 +15,10 @@ public class Customer {
 	private CollectionMode mode;
 	private CustomerStatus customerStatus;
 	private int numberOfBikes;
+	/*there should be a link between the number oof bikes and types of those bikes needed there is no way to do this in here
+	 suggest use of 
+	 private int [pair<BikeType,Integer>]numOfBikesWithType;
+	 insteasd of numbers and types separately */
 	private Collection<String> bikeTypesOfInterest; // names of bike types
 	private HashMap<Integer, Quote> indexedListOfQuotes;
 	private Collection<Quote> chosenQuotes;
