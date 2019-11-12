@@ -1,14 +1,17 @@
+
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
-import java.util.function.BooleanSupplier;
 
 public class DateRange {
 	private LocalDate start, end;
+	private Integer duration;
 
 	public DateRange(LocalDate start, LocalDate end) {
 		this.start = start;
 		this.end = end;
+		duration = Period.between(start, end).getDays()+1;
 	}
 
 	public LocalDate getStart() {
@@ -41,6 +44,9 @@ public class DateRange {
 			return true;
 	}
 	
+	public Integer getDuration() {
+		return duration;
+	}
 	@Override
 	public int hashCode() {
 		// hashCode method allowing use in collections
@@ -60,5 +66,4 @@ public class DateRange {
 		return Objects.equals(end, other.end) && Objects.equals(start, other.start);
 	}
 
-	// You can add your own methods here
 }
