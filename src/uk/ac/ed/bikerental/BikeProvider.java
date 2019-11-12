@@ -4,11 +4,6 @@ import java.util.HashMap;
 
 public class BikeProvider {
 	
-	/*public static enum BikeType{
-		//list of bikeTypes 
-		A,B,C,D
-	}*/
-	
 	private String name;
 	private HashMap<BikeType,Integer> stockOfBikes; 
 	private Collection<Bike> bikes;
@@ -21,6 +16,7 @@ public class BikeProvider {
 	private HashMap<BikeType,Integer> numOfBikesPerType;
 	private HashMap<BikeType,Integer> dailyPricePerBikeType;
 	private HashMap<BikeType,Integer> depositRatePerBikeType;
+	
 	public String getName() {
 		return name;
 	}
