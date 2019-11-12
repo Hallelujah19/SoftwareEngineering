@@ -1,4 +1,4 @@
-import java.util.Collection;
+import java.util.ArrayList;
 
 public class Booking {
 
@@ -9,7 +9,7 @@ public class Booking {
 	private BookingStatus bookingStatus;
 	private String bookingNumber;
 	private boolean isBooked;
-	private Collection<Quote> quotes; // set from customer attribute
+	private ArrayList<Quote> quotes; // set from customer attribute
 	private Customer customer;
 	
 	public BookingStatus getBookingStatus() {
