@@ -1,12 +1,12 @@
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 
 
 public class OpeningHours {
 
-	private Map<DayOfWeek, String> map;
+	private HashMap<DayOfWeek, String> map = new HashMap<>();
 	private ArrayList<DayOfWeek> daysOfWeek = new ArrayList<>();
 	private ArrayList<LocalTime> startingHours = new ArrayList<>();
 	private ArrayList<LocalTime> closingHours = new ArrayList<>();
