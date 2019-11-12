@@ -2,37 +2,36 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
 
 public class OpeningHours {
 
 	private Map<DayOfWeek, String> map;
-	private List<DayOfWeek> daysOfWeek = new ArrayList<>();
-	private List<LocalTime> startingHours = new ArrayList<>();
-	private List<LocalTime> closingHours = new ArrayList<>();
+	private ArrayList<DayOfWeek> daysOfWeek = new ArrayList<>();
+	private ArrayList<LocalTime> startingHours = new ArrayList<>();
+	private ArrayList<LocalTime> closingHours = new ArrayList<>();
 
-	public void setDaysOfWeek(Collection<DayOfWeek> daysOfWeek) {
+	public void setDaysOfWeek(ArrayList<DayOfWeek> daysOfWeek) {
 		this.daysOfWeek.addAll(daysOfWeek);
 	}
 
-	public Collection<DayOfWeek> getDaysOfWeek() {
+	public ArrayList<DayOfWeek> getDaysOfWeek() {
 		return this.daysOfWeek;
 	}
 
-	public Collection<LocalTime> getStartingHours() {
+	public ArrayList<LocalTime> getStartingHours() {
 		return startingHours;
 	}
 
-	public void setStartingHours(Collection<LocalTime> startingHours) {
+	public void setStartingHours(ArrayList<LocalTime> startingHours) {
 		this.startingHours.addAll(startingHours);
 	}
 
-	public Collection<LocalTime> getClosingHours() {
+	public ArrayList<LocalTime> getClosingHours() {
 		return closingHours;
 	}
 
-	public void setClosingHours(Collection<LocalTime> closingHours) {
+	public void setClosingHours(ArrayList<LocalTime> closingHours) {
 		this.closingHours.addAll(closingHours);
 	}
 	
@@ -45,5 +44,9 @@ public class OpeningHours {
 		for (DayOfWeek day : map.keySet())
 			s += day + " : " + map.get(day);
 		return s;
+	}
+	
+	public void display() {
+		System.out.println(this.toString());
 	}
 }
