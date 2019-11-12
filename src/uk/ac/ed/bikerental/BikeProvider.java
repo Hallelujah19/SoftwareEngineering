@@ -1,19 +1,18 @@
-
+import java.util.ArrayList;
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class BikeProvider {
 	
 	private String name;
-	private HashMap<BikeType,Integer> stockOfBikes; 
-	private Collection<Bike> bikes;
+	private HashMap<BikeType,Integer> stockOfBikes; // for the bike provider
+	private ArrayList<Bike> bikes;
 	private Location shopLocation;
 	private OpeningHours openingHours;
 	private BikeProvider partnerProvider;
 	private String messageFromPartner;
 	private String messageToPartner;
-	private Collection<String> idsOfReturnedBikes;
+	private ArrayList<String> bookingNumbers; // store unique booking numbers
 	private HashMap<BikeType,Integer> numOfBikesPerType;
 	private HashMap<BikeType, BigDecimal> dailyPricePerBikeType;
 	private BigDecimal depositRate;
@@ -30,7 +29,7 @@ public class BikeProvider {
 	public HashMap<BikeType, Integer> getStockOfBikes() {
 		return stockOfBikes;
 	}
-	public Collection<Bike> getBikes() {
+	public ArrayList<Bike> getBikes() {
 		return bikes;
 	}
 	public Location getShopLocation() {
@@ -48,9 +47,7 @@ public class BikeProvider {
 	public String getMessageToPartner() {
 		return messageToPartner;
 	}
-	public Collection<String> getIdsOfReturnedBikes() {
-		return idsOfReturnedBikes;
-	}
+	
 	public HashMap<BikeType, Integer> getNumOfBikesPerType() {
 		return numOfBikesPerType;
 	}
@@ -63,7 +60,7 @@ public class BikeProvider {
 	public void setStockOfBikes(HashMap<BikeType, Integer> stockOfBikes) {
 		this.stockOfBikes = stockOfBikes;
 	}
-	public void setBikes(Collection<Bike> bikes) {
+	public void setBikes(ArrayList<Bike> bikes) {
 		this.bikes = bikes;
 	}
 	public void updateShopLocation(Location shopLocation) {
@@ -87,9 +84,15 @@ public class BikeProvider {
 	public void setMessageToPartner(String messageToPartner) {
 		this.messageToPartner = messageToPartner;
 	}
-	public void setIdsOfReturnedBikes(Collection<String> idsOfReturnedBikes) {
-		this.idsOfReturnedBikes = idsOfReturnedBikes;
+	
+	public ArrayList<String> getBookingNumbers() {
+		return bookingNumbers;
 	}
+
+	public void setBookingNumbers(ArrayList<String> bookingNumbers) {
+		this.bookingNumbers = bookingNumbers;
+	}
+
 	public void setNumOfBikesPerType(HashMap<BikeType, Integer> numOfBikesPerType) {
 		this.numOfBikesPerType = numOfBikesPerType;
 	}
