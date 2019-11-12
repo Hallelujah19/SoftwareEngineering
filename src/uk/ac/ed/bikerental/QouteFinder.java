@@ -1,11 +1,13 @@
-import java.util.List;
+import java.util.HashMap;
+
 
 public class QuoteFinder {
 	
-	public List<Quote> filterQuotes(){
-		List<Quote> sth=null;
+	public HashMap<Integer,Quote> filterQuotes(BikeType type,Integer number,DateRange range,Location location){
+		HashMap<Integer,Quote> sth=null;
 		return sth;
 	}
 
 }
+
 
