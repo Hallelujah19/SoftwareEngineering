@@ -7,5 +7,12 @@ public class Quote {
 	private BigDecimal totalPrice;
 	private BigDecimal deposit;
 	private LocalDate dateOfReturn;
-
+	
+	public Quote(BikeProvider bp, BigDecimal tp, BigDecimal d, LocalDate date) {
+		bikeProvider = bp;
+		totalPrice = tp;
+		deposit = d;
+		dateOfReturn = date;
+	}
+	
 }
