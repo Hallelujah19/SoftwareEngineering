@@ -1,10 +1,11 @@
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public class Bike {
+	
 	public static enum DepositStatus {
-		RECIEVED, NA
+		
+		RECEIVED, PENDING
 
 	}
 
@@ -16,11 +17,11 @@ public class Bike {
 
 	private BikeStatus bikeStatus;
 	private BikeType bikeType;
-	private BigDecimal originalValue;
+	private BigDecimal originalValue; // set to the initial replacement value
 	private String bikeId;
 	private DateRange dateRange;
 	private DepositStatus depositStatus;
-
+	
 	public BikeType getType() {
 		// TODO: Implement Bike.getType
 
