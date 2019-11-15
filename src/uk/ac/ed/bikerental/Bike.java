@@ -1,18 +1,18 @@
 import java.math.BigDecimal;
 
-public class Bike {
+enum BikeStatus {
+
+	HIRED, AVAILABLE, RESERVED
+
+}
+
+enum DepositStatus {
 	
-	public static enum DepositStatus {
-		
-		RECEIVED, PENDING
+	RECEIVED, PENDING
 
-	}
+}
 
-	public static enum BikeStatus {
-
-		HIRED, AVAILABLE, RESERVED
-
-	}
+public class Bike {
 
 	private BikeStatus bikeStatus;
 	private BikeType bikeType;
@@ -20,7 +20,16 @@ public class Bike {
 	private String bookingNumber; 
 	private DateRange dateRange;
 	private DepositStatus depositStatus;
+	private String bikeId;
 	
+	public String getBikeId() {
+		return bikeId;
+	}
+
+	public void setBikeId(String bikeId) {
+		this.bikeId = bikeId;
+	}
+
 	public BikeType getType() {
 		// TODO: Implement Bike.getType
 
