@@ -6,19 +6,20 @@ import java.util.HashMap;
 
 public class QuoteFinder {
 	
-	ArrayList<BikeProvider> allProviders = new ArrayList<>();
-	ArrayList<BikeType> bikeTypes = new ArrayList<>();
+	private static ArrayList<BikeProvider> allProviders = new ArrayList<>();
+	private static ArrayList<BikeType> bikeTypes = new ArrayList<>();
 	
-	public HashMap<Integer,Quote> filterQuotes(HashMap<String, Integer> numberOfBikesPerType,DateRange dateRange,Location location){
+	public static HashMap<Integer,Quote> filterQuotes(HashMap<String, Integer> bikesPerType,DateRange dateRange,Location location){
 		
-		HashMap<Integer,Quote> indexedListOfQuotes = new HashMap<>();
+		HashMap<Integer,Quote> listOfQuotes = new HashMap<>();
 		ArrayList<Bike> allBikes = new ArrayList<>(); // all bikes for a given provider
 		ArrayList<Bike> potentialBikes = new ArrayList<>(); // bikes whose types match those
 															// requested by the customer
 		ArrayList<Bike> candidateBikes = new ArrayList<>(); // bikes which are available for the customer
+		ArrayList<Bike> requestedBikes = new ArrayList<>(); // final list of bikes returned to the customer
 		ArrayList<BikeProvider> bikeProviders = new ArrayList<>();
 		Quote quote; // temporary variable for storing a newly found quote
-		Integer index = 0; // for indexing hash map
+		Integer index = 1; // for indexing hash map
 		
 		// filter bike providers that are close to the customer's location
 		for (BikeProvider bp : allProviders) {
@@ -32,7 +33,7 @@ public class QuoteFinder {
 			allBikes = bikeProviders.get(i).getBikes(); // get their collection of bikes
 			potentialBikes = new ArrayList<>();
 			// filter by bike types
-			for (String s : numberOfBikesPerType.keySet()) {
+			for (String s : bikesPerType.keySet()) {
 				for (Bike bike : allBikes) {
 					if (bike.getType().getTypeName().equals(s))
 						potentialBikes.add(bike); // add to collection if types match
@@ -43,7 +44,7 @@ public class QuoteFinder {
 				break;
 			// check if numbers are sufficient and
 			// go to next provider if bikeCount per type is not enough
-			if (checkBikeCount(potentialBikes,numberOfBikesPerType))
+			if (checkBikeCount(potentialBikes,bikesPerType))
 				break;
 			// check for availability of bikes for each type
 			for (Bike bike : potentialBikes) {
@@ -55,22 +56,24 @@ public class QuoteFinder {
 				break;
 			// check bikeCount for each type in available bikes and
 			// go to next provider if bikeCount per type is not enough
-			if (checkBikeCount(candidateBikes, numberOfBikesPerType))
+			if (checkBikeCount(candidateBikes, bikesPerType))
 				break;
-			// create a quote for this provider
-			quote = createQuote(bikeProviders.get(i),numberOfBikesPerType,candidateBikes,dateRange);
-			indexedListOfQuotes.put(index, quote);
+			// get the required number of bikes requested
+			requestedBikes = getRequiredNumber(candidateBikes,bikesPerType);
+			quote = createQuote(bikeProviders.get(i),bikesPerType,requestedBikes,dateRange);
+			listOfQuotes.put(index, quote);
 			index++;
 		}
-		return indexedListOfQuotes;
+		return listOfQuotes;
 	}
 	
-	public Quote createQuote(BikeProvider bp, HashMap<String, Integer> map, ArrayList<Bike> bikes, DateRange dateRange) {
+	public static Quote createQuote(BikeProvider bp, HashMap<String, Integer> map, ArrayList<Bike> bikes, DateRange dateRange) {
 		
 		Quote quote;
 		BigDecimal totalPrice = BigDecimal.valueOf(0);
 		BigDecimal deposit = BigDecimal.valueOf(0);
 		LocalDate dateOfReturn;
+		ArrayList<String> bikeIds = new ArrayList<>();
 		BikeType bikeType = null; // temporary variable
 		BigDecimal dailyPrice = BigDecimal.valueOf(0); // temporary variable
 		// calculate  deposit
@@ -94,12 +97,15 @@ public class QuoteFinder {
 		double days = (double) dateRange.getDuration();
 		totalPrice = totalPrice.multiply(BigDecimal.valueOf(days));
 		dateOfReturn = dateRange.getEnd();
+		for (Bike bike : bikes)
+			bikeIds.add(bike.getBikeId());
 		// create quote
-		quote = new Quote(bp,totalPrice,deposit,dateOfReturn);
+		quote = new Quote(bp,totalPrice,deposit,dateOfReturn,bikeIds);
 		return quote;
 	}
 	
-	public Boolean checkBikeCount(ArrayList<Bike> bikes, HashMap<String, Integer> map) {
+	public static Boolean checkBikeCount(ArrayList<Bike> bikes, HashMap<String, Integer> map) {
+		
 		Boolean notEnough = false;
 		Integer bikeCount = 0;
 		for (String s : map.keySet()) {
@@ -110,7 +116,7 @@ public class QuoteFinder {
 					bikeCount++;
 			}
 			if (bikeCount.compareTo(map.get(s)) == 0
-			||	bikeCount.compareTo(map.get(s)) == 1)
+			||	bikeCount.compareTo(map.get(s))  > 0)
 				continue; // go to next type
 			else
 				notEnough = true; // set flag
@@ -118,22 +124,41 @@ public class QuoteFinder {
 		return notEnough;
 	}
 	
-	public ArrayList<BikeProvider> getAllProviders() {
+	public static ArrayList<Bike> getRequiredNumber(ArrayList<Bike> bikes, HashMap<String, Integer> map) {
+		
+		Integer bikeCount;
+		ArrayList<Bike> requestedBikes = new ArrayList<>();
+		// get required number of bikes
+		for (String s : map.keySet()) {
+			bikeCount = 0;
+			for (Bike bike : bikes) {
+			 	if (bike.getBikeType().getTypeName().equals(s)) {
+			 		if (bikeCount.compareTo(map.get(s)) < 0) { // if not yet equal to required number
+			 			requestedBikes.add(bike); 			   // add to collection
+			 			bikeCount++;
+			 		}
+			 		else
+			 			break; // stop and go to next bike type
+			 	}
+			}
+		}
+		return requestedBikes;
+	}
+	
+	public static ArrayList<BikeProvider> getAllProviders() {
 		return allProviders;
 	}
 
 	public void setAllProviders(ArrayList<BikeProvider> allProviders) {
-		this.allProviders = allProviders;
+		QuoteFinder.allProviders = allProviders;
 	}
 
-	public ArrayList<BikeType> getBikeTypes() {
+	public static ArrayList<BikeType> getBikeTypes() {
 		return bikeTypes;
 	}
 
 	public void setBikeTypes(ArrayList<BikeType> bikeTypes) {
-		this.bikeTypes = bikeTypes;
+		QuoteFinder.bikeTypes = bikeTypes;
 	}
 
 }
-
-
