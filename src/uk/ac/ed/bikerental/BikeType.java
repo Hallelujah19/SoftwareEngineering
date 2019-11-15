@@ -1,5 +1,4 @@
-
-	import java.math.BigDecimal;
+import java.math.BigDecimal;
 	import java.util.Objects;
 
 	
@@ -24,6 +23,10 @@
 		public void setReplacementValue(BigDecimal replacementValue) {
 			this.replacementValue = replacementValue;
 		}
-			
+		
+		public BikeType(String typeName, BigDecimal replacementValue) {
+			this.typeName = typeName;
+			this.replacementValue = replacementValue;
+		}
+		
 	}
-
