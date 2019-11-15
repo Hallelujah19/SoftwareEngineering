@@ -1,90 +1,96 @@
+
 import java.util.HashMap;
+
+enum CustomerStatus {
+	LOCAL, TOURIST
+}
+
+enum CollectionMode {
+	IN_STORE, DELIVERY
+}
 
 public class Customer {
 	
-	public static enum CustomerStatus{
-		LOCAL,TOURIST
-	}
-	
-	public static enum CollectionMode {
-		IN_STORE, DELIVERY
-	}
-	
-	private Location customerLocation;
+	private Location location;
 	private CollectionMode mode;
-	private CustomerStatus customerStatus;
-	private HashMap<String, Integer> numberOfBikesPerType; // string represent names of bike types
-	private HashMap<Integer, Quote> indexedListOfQuotes;
+	private CustomerStatus status;
+	private DateRange dateRange;
+	private HashMap<String, Integer> bikesPerType = new HashMap<>(); 
+	private HashMap<Integer, Quote> listOfQuotes = new HashMap<>();
 	private Quote chosenQuote;
-	private int indexOfChosenQuote;
-	
-	public Quote selectQuote() {
-		Quote x = null;
-		return x;
+	private int chosenIndex;
+
+	public void selectQuote() {
+		// at this stage the index of chosen quote has been set
+		chosenQuote = listOfQuotes.get(chosenIndex);
 	}
-	
+
+	public DateRange getDateRange() {
+		return dateRange;
+	}
+
+	public void setDateRange(DateRange dateRange) {
+		this.dateRange = dateRange;
+	}
+
 	public void BrowseQuotes() {
-			
+		// this method is called when the rental needs
+		// of the customer have been obtained
+		listOfQuotes = QuoteFinder.filterQuotes(bikesPerType, dateRange, location);
+		// display the indexed list of quotes in human-readable format
+		for (Integer i : listOfQuotes.keySet()) {
+			System.out.println(i + "." + "\n" + listOfQuotes.get(i).toString());
+		}
 	}
 	
-	public void goToBooking(Quote quote) {
-		
-	}
-	
-	public void getRentalNeeds() {
-		
+	public void setStatus(CustomerStatus status) {
+		this.status = status;
 	}
 
-	public void setCustomerStatus(CustomerStatus customerStatus) {
-		this.customerStatus = customerStatus;
-	}
-
-	public void setIndexedListOfQuotes(HashMap<Integer, Quote> indexedListOfQuotes) {
-		HashMap<Integer,Quote> search=filterQoutes(Biketype b,Integer number,Location l);//not finished
-		
-		this.indexedListOfQuotes = search;
+	public void setListOfQuotes(HashMap<Integer, Quote> listOfQuotes) {
+		this.listOfQuotes = listOfQuotes;
 	}
 
 	public void setChosenQuote(Quote chosenQuote) {
 		this.chosenQuote = chosenQuote;
 	}
 
-	public void setIndexOfChosenQuote(int indexOfChosenQuote) {
-		this.indexOfChosenQuote = indexOfChosenQuote;
+	public void setChosenIndex(int chosenIndex) {
+		this.chosenIndex = chosenIndex;
 	}
 
-	public CustomerStatus getCustomerStatus() {
-		return customerStatus;
+	public CustomerStatus getStatus() {
+		return status;
+	}
+
+	public HashMap<String, Integer> getBikesPerType() {
+		return bikesPerType;
 	}
 	
-	public HashMap<String, Integer> getNumberOfBikesPerType() {
-		return numberOfBikesPerType;
+	public void setBikesPerType(HashMap<String, Integer> bikesPerType) {
+		this.bikesPerType = bikesPerType;
 	}
 
-	public void setNumberOfBikesPerType(HashMap<String, Integer> numberOfBikesPerType) {
-		this.numberOfBikesPerType = numberOfBikesPerType;
-	}
-
-	public HashMap<Integer, Quote> getIndexedListOfQuotes() {
-		return indexedListOfQuotes;
+	public HashMap<Integer, Quote> getListOfQuotes() {
+		return listOfQuotes;
 	}
 
 	public Quote getChosenQuote() {
 		return chosenQuote;
 	}
-	
-	public int getIndexOfChosenQuote() {
-		return indexOfChosenQuote;
-	}
-	
-	public void setCustomerLocation(Location customerLocation) {
-		this.customerLocation = customerLocation;
-	}
-	
-	public Location getCustomerLocation() {
-		return customerLocation;
+
+	public int getChosenIndex() {
+		return chosenIndex;
 	}
 
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+	
 	public CollectionMode getMode() {
 		return mode;
 	}
@@ -92,7 +98,5 @@ public class Customer {
 	public void setMode(CollectionMode mode) {
 		this.mode = mode;
 	}
-	
+
 }
-
-
