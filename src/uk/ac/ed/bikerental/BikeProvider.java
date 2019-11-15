@@ -15,6 +15,7 @@ public class BikeProvider {
 	private ArrayList<String> bookingNumbers; // store unique booking numbers
 	private HashMap<BikeType, BigDecimal> dailyPricePerBikeType;
 	private BigDecimal depositRate;
+	private Collection<String> bikeTypes;
 
 	public BikeProvider(String name, Location shopLocation, OpeningHours openingHours) {
 		this.name = name;
@@ -118,5 +119,15 @@ public class BikeProvider {
 	public void setDailyPricePerBikeType(HashMap<BikeType, BigDecimal> dailyPricePerBikeType) {
 		this.dailyPricePerBikeType = dailyPricePerBikeType;
 	}
+	
+	public void addNewBikeType(String name,BigDecimal price,int number) {
+		        BikeType newType= new BikeType(name,number);
+		        bikeTypes.add(name);
+	        	numOfBikesPerType.put(name,number);
+	        	depositRatePerBikeType.put(name,depositRate);
+	        	dailyPricePerBikeType.put(name, price);
+	        	
+	}
+
 
 }
