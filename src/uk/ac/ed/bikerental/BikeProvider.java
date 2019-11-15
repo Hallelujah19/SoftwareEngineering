@@ -121,7 +121,7 @@ public class BikeProvider {
 	}
 	
 	public void addNewBikeType(String name,BigDecimal price,int number) {
-		        BikeType newType= new BikeType(name,number);
+		        BikeType newType= new BikeType(name,price);
 		        bikeTypes.add(name);
 	        	numOfBikesPerType.put(name,number);
 	        	depositRatePerBikeType.put(name,depositRate);
