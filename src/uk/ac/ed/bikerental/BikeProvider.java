@@ -16,6 +16,7 @@ public class BikeProvider {
 	private HashMap<BikeType, BigDecimal> dailyPricePerBikeType;
 	private BigDecimal depositRate;
 	private Collection<String> bikeTypes;
+	
 
 	public BikeProvider(String name, Location shopLocation, OpeningHours openingHours) {
 		this.name = name;
@@ -105,7 +106,10 @@ public class BikeProvider {
 	}
 
 	public void setMessageToPartner(String messageToPartner) {
-		this.messageToPartner = messageToPartner;
+		String beginning = "We have received your bike with ID :";
+		String bikeId = messageToPartner;
+		String message = beginning + bikeId;
+		this.messageToPartner = message;
 	}
 
 	public ArrayList<String> getBookingNumbers() {
@@ -123,11 +127,32 @@ public class BikeProvider {
 	public void addNewBikeType(String name,BigDecimal price,int number) {
 		        BikeType newType= new BikeType(name,price);
 		        bikeTypes.add(name);
-	        	numOfBikesPerType.put(name,number);
-	        	depositRatePerBikeType.put(name,depositRate);
-	        	dailyPricePerBikeType.put(name, price);
+	        	stockOfBikes.put(newType,number);
+	        	depositRatePerBikeType.put(newType,depositRate);
+	        	dailyPricePerBikeType.put(newType, price);
 	        	
 	}
+	
+	public void stockUpdate(BikeType type,int number){
+		stockOfBikes.replace(type,stockOfBikes.get(type)+number);
+	}
+	
+	public void registerReturn(String bikeId) {
+	
+		for(bike : bikes){
+			if(bike.getBikeId().equals(bikeId)){
+			    bike.setBikeStatus(BikeStatus.AVAILABLE);
+			} 
+		}
+	}
+	
+	public void registerReturnToPartner(String bikeId) {
+	     
+		partnerProvider.setMessageFromPartner(this.setMessageToPartner(bikeId));
+		
+	}
+	
+	
 
 
 }
