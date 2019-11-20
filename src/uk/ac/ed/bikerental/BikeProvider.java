@@ -56,8 +56,8 @@ public class BikeProvider {
 		return messageToPartner;
 	}
 
-	public HashMap<BikeType, BigDecimal> getDailyPricePerBikeType() {
-		return dailyPricePerBikeType;
+	public HashMap<BikeType, BigDecimal> getDailyPricePerBikeType(BikeType bikeType) {
+		return dailyPricePerBikeType.get(bikeType);
 	}
 
 	public void updateName(String name) {
