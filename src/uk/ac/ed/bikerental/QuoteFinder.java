@@ -1,4 +1,3 @@
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -86,7 +85,7 @@ public class QuoteFinder {
 			for (BikeType biketype : bp.getStockOfBikes().keySet())
 				if (biketype.getTypeName().equals(s))
 					bikeType = biketype;
-			dailyPrice = bp.getDailyPricePerBikeType().get(bikeType);
+			dailyPrice = bp.getDailyPricePerBikeType(bikeType);
 			// filter bikes by type and add daily price to total price
 			for (Bike bike : bikes) {
 				if (bike.getBikeType().equals(bikeType)) {
