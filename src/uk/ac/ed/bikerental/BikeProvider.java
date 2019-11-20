@@ -120,8 +120,8 @@ public class BikeProvider {
 		this.bookingNumbers = bookingNumbers;
 	}
 
-	public void setDailyPricePerBikeType(BikeType bikeType) {
-		this.dailyPricePerBikeType.put(bikeType);
+	public void setDailyPricePerBikeType(BikeType biketype, BigDecimal price) {
+		this.dailyPricePerBikeType.put(biketype,price);
 	}
 	
 	public void addNewBikeType(String name,BigDecimal price,int number) {
@@ -147,7 +147,7 @@ public class BikeProvider {
 	}
 	
 	public void registerReturnToPartner(String bikeId) {
-	     
+	     https://www.geeksforgeeks.org/bigdecimal-class-java/
 		partnerProvider.setMessageFromPartner(this.setMessageToPartner(bikeId));
 		
 	}
