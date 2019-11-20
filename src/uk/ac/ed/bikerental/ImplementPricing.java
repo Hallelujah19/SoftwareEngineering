@@ -3,38 +3,45 @@ import java.util.Collection;
 
 public class ImplementPricing implements PricingPolicy {
 	
-
+	BikeProvider bikeProvider;
+	
+	public ImplementPricing(BikeProvider bikeProvider) {
+	    this.bikeProvider = bikeProvider;
+	}	
+	
+	
 	@Override
 	public void setDailyRentalPrice(BikeType bikeType, BigDecimal dailyPrice) {
 		
-		bikeType.setDailyPrice(dailyPrice);
+		bikeProvider.setDailyPricePerBikeType.put(bikeType,dailyPrice);
 
 	}
-
+	
 	@Override
-	public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration) {
-		long days = duration.toDays();
+	public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange dateRange) {
+		
+		Integer days = dateRange.getDuration();
 		BigDecimal bigDays = new BigDecimal(days);
 
 		BigDecimal rate;
-		BigDecimal rawPrice = null;
+		BigDecimal rawPrice = BigDecimal.valueOf(0);
 		
-
+		
 		for (Bike bike : bikes) {
-			rawPrice = rawPrice.add(bike.getBikeType().getDailyPrice()).multiply(bigDays);
+			rawPrice = rawPrice.add(bikeProvider.getDailyPricePerBikeType(bike.getBikeType()).multiply(bigDays));
 		}
 		
 
 		if (days >= 3 && days <= 6) {
-			rate = new BigDecimal("0.05");
+			rate = BigDecimal.valueOf(0.05);
 		} else if (days >= 7 && days <= 13) {
-			rate = new BigDecimal("0.1");
+			rate = BigDecimal.valueOf(0.1);
 		} else if (days >= 14) {
-			rate = new BigDecimal("0.15");
+			rate = BigDecimal.valueOf(0.15);
 		} else {
-			rate = new BigDecimal("0");
+			rate = BigDecimal.valueOf(0);
 		}
-
+		
 		rawPrice = rawPrice.multiply(rate);
 
 		return rawPrice;
