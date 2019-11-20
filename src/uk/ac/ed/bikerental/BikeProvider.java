@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+
+
 public class BikeProvider {
 
 	private String name;
@@ -105,9 +107,8 @@ public class BikeProvider {
 		this.messageFromPartner = messageFromPartner;
 	}
 
-	public void setMessageToPartner(String messageToPartner) {
+	public void setMessageToPartner(String bikeId) {
 		String beginning = "We have received your bike with ID :";
-		String bikeId = messageToPartner;
 		String message = beginning + bikeId;
 		this.messageToPartner = message;
 	}
@@ -124,7 +125,7 @@ public class BikeProvider {
 		this.dailyPricePerBikeType.put(biketype,price);
 	}
 	
-	public void addNewBikeType(String name, int number) {
+	public void addNewBikeType(String name, int number,BigDecimal price) {
 		        BikeType newType= new BikeType(name,price);
 		        bikeTypes.add(name);
 	        	stockOfBikes.put(newType, number);
@@ -136,7 +137,7 @@ public class BikeProvider {
 	
 	public void registerReturn(String bikeId) {
 	
-		for(bike : bikes){
+		for(Bike bike : bikes){
 			if(bike.getBikeId().equals(bikeId)){
 			    bike.setBikeStatus(BikeStatus.AVAILABLE);
 			} 
@@ -145,9 +146,9 @@ public class BikeProvider {
 	
 	public void registerReturnToPartner(String bikeId) {
 		
-		partnerProvider.setMessageFromPartner(this.setMessageToPartner(bikeId));
+		this.setMessageToPartner(bikeId);
+		partnerProvider.setMessageFromPartner(this.messageToPartner);
 	
 	}
 
 }
-
