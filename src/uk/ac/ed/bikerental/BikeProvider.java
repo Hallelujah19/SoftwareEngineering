@@ -120,8 +120,8 @@ public class BikeProvider {
 		this.bookingNumbers = bookingNumbers;
 	}
 
-	public void setDailyPricePerBikeType(HashMap<BikeType, BigDecimal> dailyPricePerBikeType) {
-		this.dailyPricePerBikeType = dailyPricePerBikeType;
+	public void setDailyPricePerBikeType(BikeType bikeType) {
+		this.dailyPricePerBikeType.put(bikeType);
 	}
 	
 	public void addNewBikeType(String name,BigDecimal price,int number) {
