@@ -56,7 +56,7 @@ public class BikeProvider {
 		return messageToPartner;
 	}
 
-	public HashMap<BikeType, BigDecimal> getDailyPricePerBikeType(BikeType bikeType) {
+	public BigDecimal getDailyPricePerBikeType(BikeType bikeType) {
 		return dailyPricePerBikeType.get(bikeType);
 	}
 
@@ -124,13 +124,10 @@ public class BikeProvider {
 		this.dailyPricePerBikeType.put(biketype,price);
 	}
 	
-	public void addNewBikeType(String name,BigDecimal price,int number) {
+	public void addNewBikeType(String name, int number) {
 		        BikeType newType= new BikeType(name,price);
 		        bikeTypes.add(name);
-	        	stockOfBikes.put(newType,number);
-	        	depositRatePerBikeType.put(newType,depositRate);
-	        	dailyPricePerBikeType.put(newType, price);
-	        	
+	        	stockOfBikes.put(newType, number);
 	}
 	
 	public void stockUpdate(BikeType type,int number){
@@ -147,12 +144,9 @@ public class BikeProvider {
 	}
 	
 	public void registerReturnToPartner(String bikeId) {
-	     https://www.geeksforgeeks.org/bigdecimal-class-java/
-		partnerProvider.setMessageFromPartner(this.setMessageToPartner(bikeId));
 		
+		partnerProvider.setMessageFromPartner(this.setMessageToPartner(bikeId));
+	
 	}
-	
-	
-
 
 }
