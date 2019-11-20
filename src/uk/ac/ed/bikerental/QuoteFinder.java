@@ -148,15 +148,15 @@ public class QuoteFinder {
 	public static ArrayList<BikeProvider> getAllProviders() {
 		return allProviders;
 	}
-
+	
 	public void setAllProviders(ArrayList<BikeProvider> allProviders) {
 		QuoteFinder.allProviders = allProviders;
 	}
-
+	
 	public static ArrayList<BikeType> getBikeTypes() {
 		return bikeTypes;
 	}
-
+	
 	public void setBikeTypes(ArrayList<BikeType> bikeTypes) {
 		QuoteFinder.bikeTypes = bikeTypes;
 	}
