@@ -13,7 +13,7 @@ public class ImplementPricing implements PricingPolicy {
 	@Override
 	public void setDailyRentalPrice(BikeType bikeType, BigDecimal dailyPrice) {
 		
-		bikeProvider.setDailyPricePerBikeType.put(bikeType,dailyPrice);
+	bikeProvider.setDailyPricePerBikeType.put(bikeType,dailyPrice);
 
 	}
 	
