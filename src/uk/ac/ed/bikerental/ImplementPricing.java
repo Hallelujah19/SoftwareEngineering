@@ -50,14 +50,4 @@ public class ImplementPricing implements PricingPolicy {
 
 }
 
-BigDecimal test_rate = BigDecimal.valueOf(0.05);
- BigDecimal test_raw_price = BigDecimal.valueOf(0);
- TestData.createBikeTypes(20);
- TestData.createBikes(20);
- testBikes.add(TestData.bikeList);
- TestData.createDates(1); // duration is 5 days so rate is 0.05
- 
- for (Bike bike : TestData.bikeList) {
-	test_raw_price = test_raw_price.add(bikeProvider.getDailyPricePerBikeType(bike.getBikeType()).multiply(bigDays));
-		} 
 
