@@ -25,7 +25,7 @@ public class TestData {
 	 
  }
  
- static void prices(int number) {
+ static void createPrices(int number) {
 	 
 	 BigDecimal basePrice =BigDecimal.valueOf(1000);
 
