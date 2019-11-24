@@ -1,9 +1,3 @@
-package uk.ac.ed.bikerental;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.LocalDate;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,12 +29,19 @@ class TestDateRange {
     @Test
     void testOverlapsTrue() {
         // TODO: check we can see when two date ranges overlap
-        fail();
+    	 assertEquals(true,this.dateRange2.overlaps(dateRange1));
+    	 assertEquals(true,this.dateRange3.overlaps(dateRange1));
+    	 assertEquals(true,this.dateRange3.overlaps(dateRange2));
+        //fail();
     }
 
     @Test
     void testOverlapsFalse() {
         // TODO: check we can see when two date ranges  don't overlap
+    	 assertEquals(false,this.dateRange1.overlaps(dateRange2));
+    	 assertEquals(false,this.dateRange1.overlaps(dateRange3));
+    	 assertEquals(false,this.dateRange2.overlaps(dateRange3));
+    	
         fail();
     }
 
