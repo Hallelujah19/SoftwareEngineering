@@ -1,7 +1,9 @@
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class DateRange {
@@ -14,6 +16,8 @@ public class DateRange {
 		duration = Period.between(start, end).getDays()+1;
 	}
 
+	
+	
 	public LocalDate getStart() {
 		return this.start;
 	}
@@ -31,7 +35,7 @@ public class DateRange {
 	}
 
 	public Boolean overlaps(DateRange other) {
-		if (other == null)
+	/*	if (other == null)
 			return false;
 		if (this.getStart().isAfter(other.getStart())
 		||  this.getStart().isEqual(other.getStart())) {
@@ -42,6 +46,13 @@ public class DateRange {
 		}
 		else
 			return true;
+	*/
+	if (other == null) return false;
+	if (this.getAbsoluteDays(start) >= other.getAbsoluteDays(start)
+	 && this.getAbsoluteDays(end) <= other.getAbsoluteDays(end))
+		return false;
+	else
+		return true;
 	}
 	
 	public Integer getDuration() {
@@ -64,6 +75,16 @@ public class DateRange {
 			return false;
 		DateRange other = (DateRange) obj;
 		return Objects.equals(end, other.end) && Objects.equals(start, other.start);
+	}
+	
+	public Integer getAbsoluteDays(LocalDate date) {
+		
+		// calculate the absolute sum till the present date
+		Integer leaps = (date.getYear() - 1) / 4;
+		Integer sum = leaps * 366 + ((date.getYear() - 1) - leaps) * 365;
+		sum += date.getDayOfYear();
+		return sum;
+		
 	}
 
 }
