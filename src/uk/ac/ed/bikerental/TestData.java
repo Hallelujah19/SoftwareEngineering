@@ -54,7 +54,14 @@ public class TestData {
 	 
 	 for(int i=0;i < number; i++) {
 		 LocalDate start = LocalDate.of(2019,6,i+1);
-		 LocalDate end = start.plusDays(4);
+		 if (i % 4 == 0)
+		 LocalDate end = start.plusDays(2);
+		 else if (i % 4 == 1)
+		 LocalDate end = start.plusDays(5);
+		 else if (i % 4 == 2)
+		 LocalDate end = start.plusDays(8);
+		 else if (i % 4 == 3)
+		 LocalDate end = start.plusDays(15);
 		 DateRange dateRange = new DateRange(start,end);
 		 dateRanges.add(dateRange);
 	 }
