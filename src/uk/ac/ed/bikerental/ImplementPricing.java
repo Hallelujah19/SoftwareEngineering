@@ -3,8 +3,9 @@ import java.util.Collection;
 
 public class ImplementPricing implements PricingPolicy {
 	
-	BikeProvider bikeProvider;
+	//Instantiating the bikeProvider that is going to make use of the policy
 	
+	BikeProvider bikeProvider;	
 	public ImplementPricing(BikeProvider bikeProvider) {
 	    this.bikeProvider = bikeProvider;
 	}	
@@ -13,9 +14,12 @@ public class ImplementPricing implements PricingPolicy {
 	@Override
 	public void setDailyRentalPrice(BikeType bikeType, BigDecimal dailyPrice) {
 		
-	bikeProvider.setDailyPricePerBikeType.put(bikeType,dailyPrice);
+		bikeProvider.setDailyPricePerBikeType(bikeType,dailyPrice);
 
 	}
+	
+	
+	//calculates the price after the rate is chosen based on  the number of days of booking
 	
 	@Override
 	public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange dateRange) {
@@ -23,31 +27,33 @@ public class ImplementPricing implements PricingPolicy {
 		Integer days = dateRange.getDuration();
 		BigDecimal bigDays = new BigDecimal(days);
 
-		BigDecimal rate;
+		BigDecimal decrement;
 		BigDecimal rawPrice = BigDecimal.valueOf(0);
+		double rate1 = 0.05;
+		double rate2 = 0.1;
+		double rate3 = 0.15;
 		
 		
 		for (Bike bike : bikes) {
 			rawPrice = rawPrice.add(bikeProvider.getDailyPricePerBikeType(bike.getBikeType()).multiply(bigDays));
 		}
 		
-
+         assert(days>=0);
+		
 		if (days >= 3 && days <= 6) {
-			rate = BigDecimal.valueOf(0.05);
+			decrement = BigDecimal.valueOf(1-rate1);
 		} else if (days >= 7 && days <= 13) {
-			rate = BigDecimal.valueOf(0.1);
+			decrement = BigDecimal.valueOf(1-rate2);
 		} else if (days >= 14) {
-			rate = BigDecimal.valueOf(0.15);
+			decrement = BigDecimal.valueOf(1-rate3);
 		} else {
-			rate = BigDecimal.valueOf(0);
+			decrement = BigDecimal.valueOf(1);
 		}
 		
-		rawPrice = rawPrice.multiply(rate);
+		rawPrice = rawPrice.multiply(decrement);
 
 		return rawPrice;
 
 	}
 
 }
-
-
