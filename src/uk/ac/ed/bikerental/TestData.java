@@ -66,10 +66,8 @@ public class TestData {
 		 DateRange dateRange = new DateRange(start,end);
 		 dateRanges.add(dateRange);
 	 }
-	 
+	 private DateRange dateRange;
  }
- cache[block_index].valid_bit = 1;
-	printf("\nCache miss!\n");
 	
  static void createShopLocations(int number) {
 	 
