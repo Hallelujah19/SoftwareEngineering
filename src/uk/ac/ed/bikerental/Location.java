@@ -43,7 +43,7 @@ public class Location {
      * @param other : An external location used for nearness comparison 
      * with the location in this class.
      * 
-     * @returns true if this location is near to @param other and false otherwise.
+     * @return true if this location is near to @param other and false otherwise.
      */
     public boolean isNearTo(Location other) {
         if (other == null)
@@ -58,7 +58,7 @@ public class Location {
      * of this class, which is a private attribute.
      *
      * 
-     * @returns the postcode attribute.
+     * @return the postcode attribute.
      */
     public String getPostcode() {
         return postcode;
@@ -68,7 +68,7 @@ public class Location {
      * This method returns the address attribute
      * of this class, which is a private attribute.
      * 
-     * @returns the address attribute.
+     * @return the address attribute.
      */
     public String getAddress() {
         return address;
