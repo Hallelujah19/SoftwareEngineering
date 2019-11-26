@@ -35,24 +35,13 @@ public class DateRange {
 	}
 
 	public Boolean overlaps(DateRange other) {
-	/*	if (other == null)
-			return false;
-		if (this.getStart().isAfter(other.getStart())
-		||  this.getStart().isEqual(other.getStart())) {
-			if (this.getEnd().isAfter(other.getEnd()))
-				return true;
-			else
-				return false;
-		}
-		else
-			return true;
-	*/
+	
 	if (other == null) return false;
-	if (this.getAbsoluteDays(start) >= other.getAbsoluteDays(start)
-	 && this.getAbsoluteDays(end) <= other.getAbsoluteDays(end))
-		return false;
-	else
+	if (this.getAbsoluteDays(start) >= other.getAbsoluteDays(other.getStart())
+	 && this.getAbsoluteDays(end) <= other.getAbsoluteDays(other.getEnd()))
 		return true;
+	else
+		return false;
 	}
 	
 	public Integer getDuration() {
