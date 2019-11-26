@@ -43,7 +43,7 @@ public class Location {
      * @param other : An external location used for nearness comparison 
      * with the location in this class.
      * 
-     * @returns true if locations are near to each other and false otherwise.
+     * @returns true if this location is near to @param other and false otherwise.
      */
     public boolean isNearTo(Location other) {
         if (other == null)
