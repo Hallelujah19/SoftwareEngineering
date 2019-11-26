@@ -25,8 +25,8 @@ public class Location {
      * the address attribute and another string of length at least
      * six for initialising the postcode attribute.
      * 
-     * @param postcode is set to the value of the postcode argument.
-     * @param address is set to the value of the address argument.
+     * @param postcode is used to initialise the postcode attribute.
+     * @param address is used to initialise the address attribute.
      */
     public Location(String postcode, String address) {
         assert postcode.length() >= 6;
