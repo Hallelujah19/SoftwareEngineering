@@ -1,13 +1,12 @@
-
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
-class testLocation {
+class TestLocation {
 	
 	Location location ;
 	Location location1 ;
 	Location location2 ;
-	Location location3 ;
+	
     @BeforeEach
     void setUp() throws Exception {
         // TODO: setup some resources before each test
@@ -28,12 +27,6 @@ class testLocation {
       	assertEquals(true,location2.isNearTo(location));
       	assertEquals(false,location2.isNearTo(location1));
  
-      }
-   
-        	
-        
-        	
-        	
-       
-    
+      }      	
+        	   
 }
