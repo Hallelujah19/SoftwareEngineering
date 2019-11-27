@@ -15,13 +15,13 @@ public class DateRange {
 	 * Two private attributes for this class of type
 	 * LocalDate
 	 * 
-	 * @param start : attribute for storing the starting date.
-	 * @param end : attribute for storing the end date.
+	 * @param start : the start date of the date range.
+	 * @param end : the end date of the date range.
 	 */
 	private LocalDate start, end;
 	
 	/**
-	 * @param duration : attribute for storing the number
+	 * attribute for storing the number
 	 * of days between the start date (inclusive) and
 	 * end date (inclusive).
 	 */
@@ -43,29 +43,29 @@ public class DateRange {
 	}
 
 	/**
-	 * This method returns the start
+	 * This method gets the start
 	 * attribute of this class, which
 	 * is a private member.
 	 * 
-	 * @return the value of the start attribute.
+	 * @return the start attribute of this class.
 	 */
 	public LocalDate getStart() {
 		return this.start;
 	}
 
 	/**
-	 * This method returns the end 
+	 * This method gets the end
 	 * attribute of this class, which
 	 * is a private member.
 	 * 
-	 * @return the value of the end attribute.
+	 * @return the end attribute of this class.
 	 */
 	public LocalDate getEnd() {
 		return this.end;
 	}
 	
 	/**
-	 * This method returns the number of years between the 
+	 * This method gets the number of years between the 
 	 * start date (inclusive) and the end date (exclusive) 
 	 * attributes of this class.
 	 * 
@@ -76,7 +76,7 @@ public class DateRange {
 	}
 	
 	/**
-	 * Returns the number of days between the start
+	 * Gets the number of days between the start
 	 * date (inclusive) and the end date (exclusive)
 	 * attributes of this class.
 	 * 
@@ -91,7 +91,7 @@ public class DateRange {
 	 * whether or not two dates overlap. 
 	 * 
 	 * @param other : is an external date range used for
-	 * checking overlaps with this class.
+	 * checking overlaps with this date range.
 	 * 
 	 * @return true if both date ranges overlap
 	 * and false otherwise.
@@ -107,10 +107,10 @@ public class DateRange {
 	}
 	
 	/**
-	 * This method returns the duration attribute of this
+	 * This method gets the duration attribute of this
 	 * class which is a private member.
 	 * 
-	 * @return the value of the duration attribute.
+	 * @return the duration attribute of this class.
 	 */
 	public Integer getDuration() {
 		return duration;
