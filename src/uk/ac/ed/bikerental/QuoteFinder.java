@@ -74,18 +74,18 @@ public class QuoteFinder {
 		return listOfQuotes;
 	}
 	
-	public static Quote createQuote(BikeProvider bp, HashMap<String, Integer> map, ArrayList<Bike> bikes, DateRange dateRange) {
+	public static Quote createQuote(BikeProvider bp, HashMap<String, Integer> map, ArrayList<Bike> bikes,
+			DateRange dateRange) {
 		
 		Quote quote;
 		BigDecimal totalPrice = BigDecimal.valueOf(0);
 		BigDecimal deposit = BigDecimal.valueOf(0);
 		LocalDate dateOfReturn;
 		ArrayList<String> bikeIds = new ArrayList<>();
-		BikeType bikeType = null; // temporary variable
-		BigDecimal dailyPrice = BigDecimal.valueOf(0); // temporary variable
-		// calculate  deposit
+		// calculate deposit
 		for (Bike bike : bikes) {
-			deposit = deposit.add(bp.getDepositRate().multiply(bike.getBikeType().getReplacementValue()));
+			deposit = deposit.add(bp.getDepositRate().multiply(bike.getBikeType()
+					.getReplacementValue()));
 		}
 		// calculate totalPrice per day per bike type
 		for (String s : map.keySet()) {
@@ -104,7 +104,7 @@ public class QuoteFinder {
 		for (Bike bike : bikes)
 			bikeIds.add(bike.getBikeId());
 		// create quote
-		quote = new Quote(bp,totalPrice,deposit,dateOfReturn,bikeIds);
+		quote = new Quote(bp, totalPrice, deposit, dateOfReturn, bikeIds);
 		return quote;
 	}
 	
