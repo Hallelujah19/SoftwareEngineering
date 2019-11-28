@@ -9,7 +9,6 @@ public class QuoteFinder {
 	private static ArrayList<BikeType> bikeTypes = new ArrayList<>();
 	//the number of requests that have been made
 	static int NumberOfRequests = 0;
-	
 
 	
 	public static HashMap<Integer,Quote> filterQuotes(HashMap<String, Integer> bikesPerType,DateRange dateRange,Location location){
@@ -55,7 +54,7 @@ public class QuoteFinder {
 				break;
 			// check for availability of bikes for each type
 			for (Bike bike : potentialBikes) {
-				if (!dateRange.overlaps(bike.getDateRange()))
+				if (dateRange.overlaps(bike.getDateRange()))
 					candidateBikes.add(bike); // add to collection if no overlaps
 			}
 			// go to next provider if no bike is available
@@ -153,7 +152,7 @@ public class QuoteFinder {
 		return allProviders;
 	}
 	
-	public void setAllProviders(ArrayList<BikeProvider> allProviders) {
+	public static void setAllProviders(ArrayList<BikeProvider> allProviders) {
 		QuoteFinder.allProviders = allProviders;
 	}
 	
@@ -161,7 +160,7 @@ public class QuoteFinder {
 		return bikeTypes;
 	}
 	
-	public void setBikeTypes(ArrayList<BikeType> bikeTypes) {
+	public static void setBikeTypes(ArrayList<BikeType> bikeTypes) {
 		QuoteFinder.bikeTypes = bikeTypes;
 	}
 
