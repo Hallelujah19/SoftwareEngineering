@@ -7,8 +7,16 @@ public class QuoteFinder {
 	
 	private static ArrayList<BikeProvider> allProviders = new ArrayList<>();
 	private static ArrayList<BikeType> bikeTypes = new ArrayList<>();
+	//the number of requests that have been made
+	static int NumberOfRequests = 0;
+	
+
 	
 	public static HashMap<Integer,Quote> filterQuotes(HashMap<String, Integer> bikesPerType,DateRange dateRange,Location location){
+		
+		
+		//update requests
+		NumberOfRequests+= 1;
 		
 		HashMap<Integer,Quote> listOfQuotes = new HashMap<>();
 		ArrayList<Bike> allBikes = new ArrayList<>(); // all bikes for a given provider
