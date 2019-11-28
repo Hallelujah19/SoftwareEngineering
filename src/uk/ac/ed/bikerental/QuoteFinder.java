@@ -87,19 +87,16 @@ public class QuoteFinder {
 		for (Bike bike : bikes) {
 			deposit = deposit.add(bp.getDepositRate().multiply(bike.getBikeType().getReplacementValue()));
 		}
-		// calculate totalPrice per day
+		// calculate totalPrice per day per bike type
 		for (String s : map.keySet()) {
-			// find bike type using its name
+			BigDecimal dailyPrice = BigDecimal.valueOf(0);
+			// filter bikes by type and add daily price to total price
 			for (BikeType biketype : bp.getStockOfBikes().keySet())
 				if (biketype.getTypeName().equals(s))
-					bikeType = biketype;
-			dailyPrice = bp.getDailyPricePerBikeType(bikeType);
-			// filter bikes by type and add daily price to total price
-			for (Bike bike : bikes) {
-				if (bike.getBikeType().equals(bikeType)) {
-				   totalPrice = totalPrice.add(dailyPrice);
-				}
-			}
+					dailyPrice = dailyPrice.add(bp.getDailyPricePerBikeType(biketype));
+			// multiply by the number of bikes requested
+			dailyPrice = dailyPrice.multiply(BigDecimal.valueOf(map.get(s)));
+			totalPrice = totalPrice.add(dailyPrice);
 		}
 		double days = (double) dateRange.getDuration();
 		totalPrice = totalPrice.multiply(BigDecimal.valueOf(days));
