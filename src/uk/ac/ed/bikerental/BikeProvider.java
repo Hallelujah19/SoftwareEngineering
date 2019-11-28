@@ -177,7 +177,7 @@ public class BikeProvider {
 	public void registerReturnToPartner(String bookingNumber) {
 
 		this.setMessageToPartner(bookingNumber);
-		partnerProvider.setMessageFromPartner(this.messageToPartner);
+		partnerProvider.setMessageFromPartner(partnerProvider.messageFromPartner + this.messageToPartner);
 
 	}
 
