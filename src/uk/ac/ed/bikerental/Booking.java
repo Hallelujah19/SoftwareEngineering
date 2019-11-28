@@ -1,9 +1,10 @@
 import java.math.BigInteger;
 import java.util.*;
+
 enum BookingStatus {
-	
-	BOOKED, DISPATCHED, DELIVERED
-	
+
+	BOOKED, DISPATCHED, DELIVERED, RETURNED
+
 }
 
 public class Booking implements Deliverable {
@@ -12,34 +13,59 @@ public class Booking implements Deliverable {
 	private String bookingNumber;
 	private boolean isBooked;
 	private Quote quote; // set from customer attribute
+
+	public Quote getQuote() {
+		return quote;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
 	private Customer customer;
 
-
 //change the constructor as the unique number is set from within the system
-public Booking(Customer customer) {
+	public Booking(Customer customer) {
 		this.customer = customer;
 		this.quote = customer.getChosenQuote();
 		this.setBookingNumber(bookingNumber); // immediately set unique booking number
 	}
 
-
-public void bookQuote() { // execute this method if the customer 
-							  // has decided to book a quote
+	public void bookQuote() { // execute this method if the customer
+								// has decided to book a quote
 		assert isBooked == true;
-		
-			statusSetter(BookingStatus.BOOKED.toString(),BikeStatus.RESERVED.toString());
-			
-		   // proceed to schedule delivery
+		this.setStatus(BookingStatus.BOOKED);
+
+		for (int i = 0; i < QuoteFinder.getAllProviders().size(); i++) {
+
+			if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) {
+				if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) {
+					for (String bikeId : quote.getBikeIds()) {
+						for (Bike bike : QuoteFinder.getAllProviders().get(i).getBikes()) {
+							if (bike.getBikeId().equals(bikeId)) { // find bike whose id matches what we have
+								// reserve upon booking
+								QuoteFinder.getAllProviders().get(i).updateBikeStatus(bikeId, BikeStatus.RESERVED);
+								// this.setStatus(BookingStatus.BOOKED);
+								QuoteFinder.getAllProviders().get(i).getBookings().add(this);
+								break; // go to next bikeId
+							}
+						}
+					}
+				} else
+					continue;
+			}
+
+		}
+
+		// proceed to schedule delivery
 		if (customer.getMode().equals(CollectionMode.DELIVERY)) {
-			
-			//DeliveryServiceFactory;
+
+			// DeliveryServiceFactory;
 			DeliveryService deliveryService = DeliveryServiceFactory.getDeliveryService();
-			
-		    deliveryService.scheduleDelivery(this, quote.getBikeProvider().getShopLocation(),
-		    										customer.getLocation(),customer.getDateRange().getStart());
-			
-			
-			
+
+			deliveryService.scheduleDelivery(this, quote.getBikeProvider().getShopLocation(), customer.getLocation(),
+					customer.getDateRange().getStart());
+
 		}
 	}
 
@@ -60,10 +86,10 @@ public void bookQuote() { // execute this method if the customer
 	}
 
 	public void setBookingNumber(String bookingNumber) {
-		
-		this.bookingNumber = "BN"+QuoteFinder.NumberOfRequests;
+
+		this.bookingNumber = "BN" + QuoteFinder.NumberOfRequests;
 	}
-	
+
 	public boolean getIsBooked() {
 		return isBooked;
 	}
@@ -71,18 +97,18 @@ public void bookQuote() { // execute this method if the customer
 	public void setIsBooked(boolean isBooked) {
 		this.isBooked = isBooked;
 	}
-	
-	public void statusSetter(String bkingStatus,String bkStatus) {
-		
-		BikeStatus    bikeStatus = BikeStatus.valueOf(bkStatus);
+
+	public void statusSetter(String bkingStatus, String bkStatus) {
+
+		BikeStatus bikeStatus = BikeStatus.valueOf(bkStatus);
 		BookingStatus bookingStatus = BookingStatus.valueOf(bkingStatus);
-		
-		for(int i = 0;i<QuoteFinder.getAllProviders().size();i++) {
-			
-			if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) { 
-				if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) { 
+
+		for (int i = 0; i < QuoteFinder.getAllProviders().size(); i++) {
+
+			if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) {
+				if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) {
 					for (String bikeId : quote.getBikeIds()) {
-					   for (Bike bike : QuoteFinder.getAllProviders().get(i).getBikes()) {
+						for (Bike bike : QuoteFinder.getAllProviders().get(i).getBikes()) {
 							if (bike.getBikeId().equals(bikeId)) { // find bike whose id matches what we have
 								// reserve upon booking
 								QuoteFinder.getAllProviders().get(i).updateBikeStatus(bikeId, bikeStatus);
@@ -91,38 +117,27 @@ public void bookQuote() { // execute this method if the customer
 							}
 						}
 					}
-				}
-				else
+				} else
 					continue;
-					}
-
 			}
-		
-		
+
+		}
+
 	}
-	
-	
-	
-	
-	
+
 	public void onPickup() {
 		// updates bike status on pick up
-		//bike status changes to Dispatched
-		statusSetter(BookingStatus.DISPATCHED.toString(),BikeStatus.PICKED_UP.toString());
-		
+		// bike status changes to Dispatched
+		statusSetter(BookingStatus.DISPATCHED.toString(), BikeStatus.PICKED_UP.toString());
+
 	}
-	
 
 	public void onDropoff() {
-		//bike status changes to Hired
-		//booking status  Delivered
-		
-		statusSetter(BookingStatus.DELIVERED.toString(),BikeStatus.HIRED.toString());
+		// bike status changes to Hired
+		// booking status Delivered
 
-		
-		
-		
+		statusSetter(BookingStatus.DELIVERED.toString(), BikeStatus.HIRED.toString());
+
 	}
 
 }
-
