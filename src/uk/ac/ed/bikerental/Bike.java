@@ -2,7 +2,7 @@ import java.math.BigDecimal;
 
 enum BikeStatus {
 
-	HIRED, AVAILABLE, RESERVED
+	HIRED, AVAILABLE, RESERVED ,IN_TRANSIT ,RECEIVED ,PICKED_UP
 
 }
 
@@ -12,7 +12,7 @@ enum DepositStatus {
 
 }
 
-public class Bike {
+public class Bike{
 
 	private BikeStatus bikeStatus;
 	private BikeType bikeType;
@@ -89,5 +89,7 @@ public class Bike {
 	public DepositStatus getDepositstatus() {
 		return depositStatus;
 	}
+
+	
 	
 }
