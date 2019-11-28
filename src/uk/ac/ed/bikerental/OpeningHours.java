@@ -1,3 +1,4 @@
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -14,11 +15,11 @@ public class OpeningHours {
 	public void setDaysOfWeek(ArrayList<DayOfWeek> daysOfWeek) {
 		this.daysOfWeek.addAll(daysOfWeek);
 	}
-
+	
 	public ArrayList<DayOfWeek> getDaysOfWeek() {
 		return this.daysOfWeek;
 	}
-
+	
 	public ArrayList<LocalTime> getStartingHours() {
 		return startingHours;
 	}
@@ -35,14 +36,19 @@ public class OpeningHours {
 		this.closingHours.addAll(closingHours);
 	}
 	
-	public String toString() {
-		String s = "";
+	public void setOpeningHours() {
+		
 		for (int i = 0; i < daysOfWeek.size(); i++) {
 			map.put(daysOfWeek.get(i), startingHours.get(i).toString()
 			+ " to " + closingHours.get(i).toString());
 		}
+		
+	}
+	
+	public String toString() {
+		String s = "";
 		for (DayOfWeek day : map.keySet())
-			s += day + " : " + map.get(day);
+			s += day + " : " + map.get(day) + "\n";
 		return s;
 	}
 	
