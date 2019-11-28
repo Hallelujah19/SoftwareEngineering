@@ -1,0 +1,79 @@
+import static org.junit.Assert.assertEquals;
+
+import java.util.HashMap;
+
+import org.junit.Test;
+
+public class TestGetQuote {
+	
+	Customer testCustomer = TestData.testCustomer;
+	
+
+//tests if the returned quote has the the correct results by comparing against the requirements	according to the hierarchy of the filtration 
+	@Test
+public void TestGetQuote() {
+	
+		testCustomer.BrowseQuotes();	
+		testCustomer.setChosenIndex(1);
+		Quote result = testCustomer.getChosenQuote();
+		HashMap<String,Integer> bikeTypeResult = new HashMap<>();
+		
+		assertEquals(true,testCustomer.getLocation().isNearTo(result.getBikeProvider().getShopLocation()));
+		
+		//create a number per Biketype for the quote to compare to the customers initial attribute(request)
+		for(Bike bike :result.getBikeProvider().getBikes()) {
+			for(String bikeId:result.getBikeIds()) {
+				if(bike.getBikeId().equals(bikeId))	{
+				  if(bikeTypeResult.containsKey(bike.getBikeType())) {
+					  bikeTypeResult.put(bike.getBikeType().getTypeName(), bikeTypeResult.get(bike.getBikeType().getTypeName()).intValue()+1);
+				  }else
+					bikeTypeResult.put(bike.getBikeType().getTypeName(),1);
+			
+				}
+				
+			}
+		}
+		
+		//check if the quote has enough of the requested bikes
+      
+		assertEquals(testCustomer.getBikesPerType().size(),bikeTypeResult.size());
+		
+		
+		//tests if all the types
+		boolean allMatch = true;
+		
+		for(String type:testCustomer.getBikesPerType().keySet()) {
+			for(String resultType:bikeTypeResult.keySet()) {
+				if(type.equals(resultType)) {
+					allMatch = allMatch && (testCustomer.getBikesPerType().get(type) == bikeTypeResult.get(resultType));
+				}
+			}
+			
+		}
+		
+		assertEquals(true,allMatch );
+		
+		//checks if the dateranges of bikes overlaps with the customer required range
+		boolean allOverlap = true;
+		
+		for(Bike bike :result.getBikeProvider().getBikes()) {
+			if(testCustomer.getDateRange().overlaps(bike.getDateRange())) {
+				allOverlap = allOverlap && true;
+			} else {		
+				allOverlap = false;
+				break;
+			}
+
+			
+			
+		 }
+		
+		
+		assertEquals(true,allOverlap );
+		
+		
+		
+		
+	} 
+
+}
