@@ -26,7 +26,7 @@ public void testReturn() {
 					allAvailable = allAvailable || (BookingStatus.RETURNED == theBooking.getStatus());
 					for (String bikeID : theBooking.getQuote().getBikeIds()) {
 						for (Bike bike : theBooking.getQuote().getBikeProvider().getBikes()) {
-							if (bike.getBikeId().contentEquals(bikeID)) {
+							if (bike.getBikeId().equals(bikeID)) {
 								allAvailable = allAvailable || (BikeStatus.AVAILABLE == bike.getBikeStatus());
 							}
 						}
