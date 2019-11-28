@@ -8,8 +8,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-class TestBook {
-
+class TestBooking {
 
 	// create a customer who has a chosen quote which is to be booked
 		Customer customer = TestData.testCustomer;//change this to TestData_Quote
