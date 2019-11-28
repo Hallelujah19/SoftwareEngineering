@@ -132,8 +132,16 @@ public class BikeProvider {
 		BikeType newType = new BikeType(name, price);
 		bikeTypes.add(name);
 		stockOfBikes.put(newType, number);
+		// check if type is in global type list
+		// if present ignore, else add
+		ArrayList<String> typeNames = new ArrayList<>();
+		for (BikeType bikeType : QuoteFinder.getBikeTypes()) {
+			typeNames.add(bikeType.getTypeName());
+		}
+		if (!typeNames.contains(name))
+			QuoteFinder.getBikeTypes().add(new BikeType(name, price));
 	}
-
+	
 	public void stockUpdate(BikeType type, int number) {
 		stockOfBikes.replace(type, stockOfBikes.get(type) + number);
 	}
