@@ -1,0 +1,48 @@
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+public class TestReturn {
+
+	// Get a booking number which can be compared to the booking number of a list of
+	// bookings to remove from the system
+	String bookingNumber; // provided by customer
+	BikeProvider provider; //the customer return point
+	Bike returnedBike; 
+
+	
+
+	@Test
+public void testReturn() {
+		// tests if the status of all the returned bikes has been made available or if a message has been sent to the partner of the return.
+		boolean allAvailable = true;
+
+		//
+		boolean isProviders = provider.registerReturn(bookingNumber);
+
+		if (isProviders) {
+			for (Booking theBooking : provider.bookings) {
+				if (theBooking.getBookingNumber().equals(bookingNumber)) {
+					allAvailable = allAvailable || (BookingStatus.RETURNED == theBooking.getStatus());
+					for (String bikeID : theBooking.getQuote().getBikeIds()) {
+						for (Bike bike : theBooking.getQuote().getBikeProvider().getBikes()) {
+							if (bike.getBikeId().contentEquals(bikeID)) {
+								allAvailable = allAvailable || (BikeStatus.AVAILABLE == bike.getBikeStatus());
+							}
+						}
+
+					}
+
+				}
+			}
+			assertEquals(true, allAvailable);
+
+		} else {
+
+			assertEquals(provider.getPartnerProvider().getMessageFromPartner(), provider.getMessageToPartner());
+
+		}
+
+	}
+
+}
