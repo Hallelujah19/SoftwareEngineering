@@ -128,24 +128,26 @@ public class BikeProvider {
 		this.dailyPricePerBikeType.put(biketype, price);
 	}
 
-	public void addNewBikeType(String name, int number, BigDecimal price) {
-		BikeType newType = new BikeType(name, price);
-		bikeTypes.add(name);
-		stockOfBikes.put(newType, number);
+	// this is done whenever a type is added
+	public void addBikeType(BikeType bikeType, int number) {
+		
+		// if new bike type
+		if (!bikeTypes.contains(bikeType.getTypeName()))
+			bikeTypes.add(bikeType.getTypeName()); // add if absent
+		if (stockOfBikes.containsKey(bikeType))
+			stockOfBikes.replace(bikeType, stockOfBikes.get(bikeType) + number);
+		else
+			stockOfBikes.put(bikeType, number);
 		// check if type is in global type list
 		// if present ignore, else add
 		ArrayList<String> typeNames = new ArrayList<>();
-		for (BikeType bikeType : QuoteFinder.getBikeTypes()) {
-			typeNames.add(bikeType.getTypeName());
+		for (BikeType biketype : QuoteFinder.getBikeTypes()) {
+			typeNames.add(biketype.getTypeName());
 		}
-		if (!typeNames.contains(name))
-			QuoteFinder.getBikeTypes().add(new BikeType(name, price));
+		if (!typeNames.contains(bikeType.getTypeName()))
+			QuoteFinder.getBikeTypes().add(bikeType);
 	}
 	
-	public void stockUpdate(BikeType type, int number) {
-		stockOfBikes.replace(type, stockOfBikes.get(type) + number);
-	}
-
 	// returns true if the booking was made with this provider and false if it was
 	// made with the partner
 	public boolean registerReturn(String bookingNumber) {
@@ -181,7 +183,11 @@ public class BikeProvider {
 		// send message to partner about the bike
 
 	}
-
+	
+	public ArrayList<String> getBikeTypes() {
+		return bikeTypes;
+	}
+	
 	public void registerReturnToPartner(String bookingNumber) {
 
 		this.setMessageToPartner(bookingNumber);
