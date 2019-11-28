@@ -2,23 +2,26 @@ import java.util.ArrayList;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
-
-
 public class BikeProvider {
 
 	private String name;
-	private HashMap<BikeType, Integer> stockOfBikes; // for the bike provider
-	private ArrayList<Bike> bikes;
+	private HashMap<BikeType, Integer> stockOfBikes = new HashMap<>(); // for the bike provider
+	private ArrayList<Bike> bikes = new ArrayList<>();
 	private Location shopLocation;
 	private OpeningHours openingHours;
 	private BikeProvider partnerProvider;
 	private String messageFromPartner;
 	private String messageToPartner;
-	private ArrayList<String> bookingNumbers; // store unique booking numbers
+	private ArrayList<String> bookingNumbers = new ArrayList<>(); // store unique booking numbers
 	private HashMap<BikeType, BigDecimal> dailyPricePerBikeType = new HashMap<>();
 	private BigDecimal depositRate;
 	private ArrayList<String> bikeTypes = new ArrayList<>();
-	
+	// A list of bookings for these quotes
+	public static ArrayList<Booking> bookings = new ArrayList<>();
+
+	public ArrayList<Booking> getBookings() {
+		return bookings;
+	}
 
 	public BikeProvider(String name, Location shopLocation, OpeningHours openingHours) {
 		this.name = name;
@@ -69,11 +72,11 @@ public class BikeProvider {
 	public void setStockOfBikes(HashMap<BikeType, Integer> stockOfBikes) {
 		this.stockOfBikes = stockOfBikes;
 	}
-	
+
 	public void setBike(Bike bike) {
 		this.bikes.add(bike);
 	}
-	
+
 	public void updateShopLocation(Location shopLocation) {
 		this.shopLocation = shopLocation;
 	}
@@ -90,11 +93,11 @@ public class BikeProvider {
 			}
 		}
 	}
-	
+
 	public BigDecimal getDepositRate() {
 		return depositRate;
 	}
-	
+
 	public void setDepositRate(BigDecimal depositRate) {
 		this.depositRate = depositRate;
 	}
@@ -107,9 +110,9 @@ public class BikeProvider {
 		this.messageFromPartner = messageFromPartner;
 	}
 
-	public void setMessageToPartner(String bikeId) {
-		String beginning = "We have received your bike with ID :";
-		String message = beginning + bikeId;
+	public void setMessageToPartner(String bookingNumber) {
+		String beginning = "We have received your bikes with Booking Number : ";
+		String message = beginning + bookingNumber + "\n";
 		this.messageToPartner = message;
 	}
 
@@ -122,33 +125,60 @@ public class BikeProvider {
 	}
 
 	public void setDailyPricePerBikeType(BikeType biketype, BigDecimal price) {
-		this.dailyPricePerBikeType.put(biketype,price);
+		this.dailyPricePerBikeType.put(biketype, price);
 	}
-	
-	public void addNewBikeType(String name, int number,BigDecimal price) {
-		        BikeType newType= new BikeType(name,price);
-		        bikeTypes.add(name);
-	        	stockOfBikes.put(newType, number);
+
+	public void addNewBikeType(String name, int number, BigDecimal price) {
+		BikeType newType = new BikeType(name, price);
+		bikeTypes.add(name);
+		stockOfBikes.put(newType, number);
 	}
-	
-	public void stockUpdate(BikeType type,int number){
-		stockOfBikes.replace(type,stockOfBikes.get(type)+number);
+
+	public void stockUpdate(BikeType type, int number) {
+		stockOfBikes.replace(type, stockOfBikes.get(type) + number);
 	}
-	
-	public void registerReturn(String bikeId) {
-	
-		for(Bike bike : bikes){
-			if(bike.getBikeId().equals(bikeId)){
-			    bike.setBikeStatus(BikeStatus.AVAILABLE);
-			} 
+
+	// returns true if the booking was made with this provider and false if it was
+	// made with the partner
+	public boolean registerReturn(String bookingNumber) {
+
+		// If the booking is done with this provider the booking is removed from the
+		// providers records
+		// and the bike statuses of the bikes booked are reset
+		boolean isProviders = false;
+
+		for (Booking theBooking : bookings) {
+			if (theBooking.getBookingNumber().equals(bookingNumber)) {
+				isProviders = isProviders || true;
+
+				for (String bikeID : theBooking.getQuote().getBikeIds()) {
+					for (Bike bike : theBooking.getQuote().getBikeProvider().getBikes()) {
+						if (bike.getBikeId().equals(bikeID)) {
+							bike.setBikeStatus(BikeStatus.AVAILABLE);
+						}
+					}
+				}
+
+				theBooking.setStatus(BookingStatus.RETURNED);
+			}
+
 		}
+
+		if (isProviders != true) {
+			registerReturnToPartner(bookingNumber);
+		}
+
+		return isProviders;
+		// If the bike is in this providers stock then set its status to available else
+		// send message to partner about the bike
+
 	}
-	
-	public void registerReturnToPartner(String bikeId) {
-		
-		this.setMessageToPartner(bikeId);
+
+	public void registerReturnToPartner(String bookingNumber) {
+
+		this.setMessageToPartner(bookingNumber);
 		partnerProvider.setMessageFromPartner(this.messageToPartner);
-	
+
 	}
 
 }
