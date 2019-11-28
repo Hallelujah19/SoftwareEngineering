@@ -15,6 +15,8 @@ public class TestData {
  static ArrayList<Bike> bikeList8 = new  ArrayList<Bike>();
  static ArrayList<Bike> bikeList15 = new  ArrayList<Bike>();
 
+ static Customer testCustomer = new Customer();
+
  
  static void createBikesTypes(int number) {
 	 BigDecimal value = BigDecimal.valueOf(100);
