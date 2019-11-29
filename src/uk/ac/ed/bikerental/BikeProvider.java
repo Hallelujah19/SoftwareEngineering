@@ -9,15 +9,15 @@ public class BikeProvider {
 	private ArrayList<Bike> bikes = new ArrayList<>();
 	private Location shopLocation;
 	private OpeningHours openingHours;
-	private BikeProvider partnerProvider;
-	private String messageFromPartner;
-	private String messageToPartner;
+	private BikeProvider partnerProvider ;
+	private String messageFromPartner  = "";
+	private String messageToPartner = "";
 	private ArrayList<String> bookingNumbers = new ArrayList<>(); // store unique booking numbers
 	private HashMap<BikeType, BigDecimal> dailyPricePerBikeType = new HashMap<>();
 	private BigDecimal depositRate;
 	private ArrayList<String> bikeTypes = new ArrayList<>();
 	// A list of bookings for these quotes
-	public static ArrayList<Booking> bookings = new ArrayList<>();
+	private ArrayList<Booking> bookings = new ArrayList<>();
 
 	public ArrayList<Booking> getBookings() {
 		return bookings;
@@ -54,11 +54,11 @@ public class BikeProvider {
 	}
 
 	public String getMessageFromPartner() {
-		return messageFromPartner;
+		return ""+ messageFromPartner;
 	}
 
 	public String getMessageToPartner() {
-		return messageToPartner;
+		return ""+ messageToPartner;
 	}
 
 	public BigDecimal getDailyPricePerBikeType(BikeType bikeType) {
@@ -107,7 +107,7 @@ public class BikeProvider {
 	}
 
 	public void setMessageFromPartner(String messageFromPartner) {
-		this.messageFromPartner = messageFromPartner;
+		this.messageFromPartner = ""+ messageFromPartner;
 	}
 
 	public void setMessageToPartner(String bookingNumber) {
@@ -170,6 +170,7 @@ public class BikeProvider {
 				}
 
 				theBooking.setStatus(BookingStatus.RETURNED);
+				break;
 			}
 
 		}
@@ -191,7 +192,9 @@ public class BikeProvider {
 	public void registerReturnToPartner(String bookingNumber) {
 
 		this.setMessageToPartner(bookingNumber);
-		partnerProvider.setMessageFromPartner(partnerProvider.messageFromPartner + this.messageToPartner);
+		partnerProvider.setMessageFromPartner(" ");
+		//System.out.println(partnerProvider.getMessageFromPartner()+ "message is this");
+		partnerProvider.setMessageFromPartner(partnerProvider.getMessageFromPartner() + this.getMessageToPartner());
 
 	}
 
