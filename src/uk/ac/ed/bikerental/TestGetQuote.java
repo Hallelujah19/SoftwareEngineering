@@ -1,3 +1,5 @@
+package uk.ac.ed.bikerental;
+
 import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
