@@ -91,6 +91,8 @@ public class Booking implements Deliverable {
 
 	public void statusSetter(BookingStatus bookingStatus, BikeStatus bikeStatus, boolean flag) {
 
+		this.setStatus(bookingStatus);
+		
 		for (int i = 0; i < QuoteFinder.getAllProviders().size(); i++) {
 			// pick out the provider
 			if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) {
@@ -102,12 +104,12 @@ public class Booking implements Deliverable {
 						if (bike.getBikeId().equals(bikeId)) {
 							// reserve upon booking
 							QuoteFinder.getAllProviders().get(i).updateBikeStatus(bikeId, bikeStatus);
-							this.setStatus(bookingStatus);
 							break; // go to next bikeId
 						}
 					}
 				}
 				if (flag) QuoteFinder.getAllProviders().get(i).getBookings().add(this);
+				break;
 			} else
 				continue; // to next provider
 		}
