@@ -6,25 +6,33 @@ import org.junit.Test;
 
 public class TestGetQuote {
 	
-	Customer testCustomer = TestData.testCustomer;
-	
 
 //tests if the returned quote has the the correct results by comparing against the requirements	according to the hierarchy of the filtration 
 	@Test
 public void TestGetQuote() {
-	
-		testCustomer.BrowseQuotes();	
-		testCustomer.setChosenIndex(1);
-		Quote result = testCustomer.getChosenQuote();
+		
+		// create a customer and set up system
+					TestData_FindQuote.setUpProvider(20);
+					TestData_FindQuote.createCustomer();
+
+		// get quotes for the customer
+					TestData_FindQuote.customer.BrowseQuotes();
+					TestData_FindQuote.customer.setChosenIndex(1);
+					TestData_FindQuote.customer.selectQuote();
+		
+		
+		Quote result = TestData_FindQuote.customer.getChosenQuote();
 		HashMap<String,Integer> bikeTypeResult = new HashMap<>();
 		
-		assertEquals(true,testCustomer.getLocation().isNearTo(result.getBikeProvider().getShopLocation()));
+		System.out.println(result == null);
+		
+		assertEquals(true,TestData_FindQuote.customer.getLocation().isNearTo(result.getBikeProvider().getShopLocation()));
 		
 		//create a number per Biketype for the quote to compare to the customers initial attribute(request)
 		for(Bike bike :result.getBikeProvider().getBikes()) {
 			for(String bikeId:result.getBikeIds()) {
 				if(bike.getBikeId().equals(bikeId))	{
-				  if(bikeTypeResult.containsKey(bike.getBikeType())) {
+				  if(bikeTypeResult.containsKey(bike.getBikeType().getTypeName())) {
 					  bikeTypeResult.put(bike.getBikeType().getTypeName(), bikeTypeResult.get(bike.getBikeType().getTypeName()).intValue()+1);
 				  }else
 					bikeTypeResult.put(bike.getBikeType().getTypeName(),1);
@@ -36,16 +44,16 @@ public void TestGetQuote() {
 		
 		//check if the quote has enough of the requested bikes
       
-		assertEquals(testCustomer.getBikesPerType().size(),bikeTypeResult.size());
+		assertEquals(TestData_FindQuote.customer.getBikesPerType().size(),bikeTypeResult.size());
 		
 		
 		//tests if all the types
 		boolean allMatch = true;
 		
-		for(String type:testCustomer.getBikesPerType().keySet()) {
+		for(String type:TestData_FindQuote.customer.getBikesPerType().keySet()) {
 			for(String resultType:bikeTypeResult.keySet()) {
 				if(type.equals(resultType)) {
-					allMatch = allMatch && (testCustomer.getBikesPerType().get(type) == bikeTypeResult.get(resultType));
+					allMatch = allMatch && (TestData_FindQuote.customer.getBikesPerType().get(type) == bikeTypeResult.get(resultType));
 				}
 			}
 			
@@ -57,7 +65,7 @@ public void TestGetQuote() {
 		boolean allOverlap = true;
 		
 		for(Bike bike :result.getBikeProvider().getBikes()) {
-			if(testCustomer.getDateRange().overlaps(bike.getDateRange())) {
+			if(TestData_FindQuote.customer.getDateRange().overlaps(bike.getDateRange())) {
 				allOverlap = allOverlap && true;
 			} else {		
 				allOverlap = false;
