@@ -45,7 +45,11 @@ public void TestGetQuote() {
 		//check if the quote has enough of the requested bikes
       
 		assertEquals(TestData_FindQuote.customer.getBikesPerType().size(),bikeTypeResult.size());
-		
+		//checks if the types match ->
+		assertEquals(true,bikeTypeResult.keySet().containsAll(TestData_FindQuote.customer.getBikesPerType().keySet()));
+		//checks if the types match <-
+		assertEquals(true,TestData_FindQuote.customer.getBikesPerType().keySet().containsAll(bikeTypeResult.keySet()));
+
 		
 		//tests if all the types
 		boolean allMatch = true;
@@ -54,7 +58,11 @@ public void TestGetQuote() {
 			for(String resultType:bikeTypeResult.keySet()) {
 				if(type.equals(resultType)) {
 					allMatch = allMatch && (TestData_FindQuote.customer.getBikesPerType().get(type) == bikeTypeResult.get(resultType));
+					if(allMatch == false) {
+						break;
+					}
 				}
+				
 			}
 			
 		}
