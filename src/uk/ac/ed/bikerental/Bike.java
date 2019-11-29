@@ -1,3 +1,5 @@
+package uk.ac.ed.bikerental;
+
 import java.math.BigDecimal;
 
 enum BikeStatus {
