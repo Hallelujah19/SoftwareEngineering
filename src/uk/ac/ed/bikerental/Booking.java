@@ -1,5 +1,3 @@
-import java.math.BigInteger;
-import java.util.*;
 
 enum BookingStatus {
 
@@ -47,7 +45,7 @@ public class Booking implements Deliverable {
 
 		}
 	}
-
+	
 	public void goToPayment() {
 
 	}
@@ -91,29 +89,29 @@ public class Booking implements Deliverable {
 		statusSetter(BookingStatus.DELIVERED, BikeStatus.HIRED, false);
 
 	}
-	
-	
+
 	public void statusSetter(BookingStatus bookingStatus, BikeStatus bikeStatus, boolean flag) {
 
 		for (int i = 0; i < QuoteFinder.getAllProviders().size(); i++) {
-
+			// pick out the provider
 			if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) {
-				if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) {
-					for (String bikeId : quote.getBikeIds()) {
-						for (Bike bike : QuoteFinder.getAllProviders().get(i).getBikes()) {
-							if (bike.getBikeId().equals(bikeId)) { // find bike whose id matches what we have
-								// reserve upon booking
-								QuoteFinder.getAllProviders().get(i).updateBikeStatus(bikeId, bikeStatus);
-								this.setStatus(bookingStatus);
-								if (flag) QuoteFinder.getAllProviders().get(i).getBookings().add(this);
-								break; // go to next bikeId
-							}
+				// for each bike id in the quote
+				for (String bikeId : quote.getBikeIds()) {
+					// go through all the provider's bikes
+					for (Bike bike : QuoteFinder.getAllProviders().get(i).getBikes()) {
+						// fish out the bike whose id matches the selected id
+						if (bike.getBikeId().equals(bikeId)) {
+							// reserve upon booking
+							QuoteFinder.getAllProviders().get(i).updateBikeStatus(bikeId, bikeStatus);
+							this.setStatus(bookingStatus);
+							if (flag)
+								QuoteFinder.getAllProviders().get(i).getBookings().add(this);
+							break; // go to next bikeId
 						}
 					}
-				} else
-					continue;
-			}
-
+				}
+			} else
+				continue;
 		}
 
 	}
