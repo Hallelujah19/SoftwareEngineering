@@ -1,4 +1,4 @@
-
+package uk.ac.ed.bikerental;
 import org.junit.Test;
 import org.junit.jupiter.api.*;
 
