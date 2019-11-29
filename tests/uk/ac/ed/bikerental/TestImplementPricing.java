@@ -55,7 +55,7 @@ class ImplementPricingTest {
 		TestData.createBikesTypes(20);
 
 		for (BikeType bikeType : TestData.typeList) {
-			testProvider.addNewBikeType(bikeType.getTypeName(), 1, bikeType.getReplacementValue());
+			testProvider.addBikeType(bikeType, 1);
 		}
 
 		TestData.createBikes(20);
