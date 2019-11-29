@@ -1,3 +1,5 @@
+package uk.ac.ed.bikerental;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
