@@ -6,19 +6,46 @@ public class TestReturn {
 
 	// Get a booking number which can be compared to the booking number of a list of
 	// bookings to remove from the system
-	String bookingNumber; // provided by customer
-	BikeProvider provider; //the customer return point
-	Bike returnedBike; 
+	//String bookingNumber; // provided by customer
+	//BikeProvider provider; //the customer return point
+	//Bike returnedBike; 
 
 	
 
 	@Test
 public void testReturn() {
+		
+		// create a customer and set up system
+		TestData_FindQuote.setUpProvider(20);
+		TestData_FindQuote.createCustomer();
+
+		// get quotes for the customer
+		TestData_FindQuote.customer.BrowseQuotes();
+		TestData_FindQuote.customer.setChosenIndex(1);
+		TestData_FindQuote.customer.selectQuote();
+		
+		Quote result = TestData_FindQuote.customer.getChosenQuote();
+		BikeProvider provider = result.getBikeProvider();
+		Booking booking = new Booking(TestData_FindQuote.customer);
+		booking.bookQuote();
+		String bookingNumber = booking.getBookingNumber(); 
+		
+		//partner could be used to test if the message is sent to the partner
+		 int index = 0;
+		 BikeProvider partnerProvider = QuoteFinder.getAllProviders().get(index);
+
+		 
+		//Setup partner
+		provider.setPartnerProvider(QuoteFinder.getAllProviders().get(index));
+		
+		//System.out.println(provider.bookings.isEmpty());
+		
 		// tests if the status of all the returned bikes has been made available or if a message has been sent to the partner of the return.
 		boolean allAvailable = true;
 
 		//
 		boolean isProviders = provider.registerReturn(bookingNumber);
+		
 
 		if (isProviders) {
 			for (Booking theBooking : provider.bookings) {
@@ -39,7 +66,7 @@ public void testReturn() {
 
 		} else {
 
-			assertEquals(provider.getPartnerProvider().getMessageFromPartner(), provider.getMessageToPartner());
+			assertEquals(true,provider.getPartnerProvider().getMessageFromPartner().contains( provider.getMessageToPartner()));
 
 		}
 
