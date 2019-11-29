@@ -1,3 +1,5 @@
+package uk.ac.ed.bikerental;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
