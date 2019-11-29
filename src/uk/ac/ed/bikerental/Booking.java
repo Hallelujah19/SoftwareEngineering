@@ -28,34 +28,13 @@ public class Booking implements Deliverable {
 	public Booking(Customer customer) {
 		this.customer = customer;
 		this.quote = customer.getChosenQuote();
-		this.setBookingNumber(bookingNumber); // immediately set unique booking number
+		this.setBookingNumber(); // immediately set unique booking number
 	}
 
 	public void bookQuote() { // execute this method if the customer
 								// has decided to book a quote
-		assert isBooked == true;
-		this.setStatus(BookingStatus.BOOKED);
 
-		for (int i = 0; i < QuoteFinder.getAllProviders().size(); i++) {
-
-			if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) {
-				if (QuoteFinder.getAllProviders().get(i).equals(quote.getBikeProvider())) {
-					for (String bikeId : quote.getBikeIds()) {
-						for (Bike bike : QuoteFinder.getAllProviders().get(i).getBikes()) {
-							if (bike.getBikeId().equals(bikeId)) { // find bike whose id matches what we have
-								// reserve upon booking
-								QuoteFinder.getAllProviders().get(i).updateBikeStatus(bikeId, BikeStatus.RESERVED);
-								// this.setStatus(BookingStatus.BOOKED);
-								QuoteFinder.getAllProviders().get(i).getBookings().add(this);
-								break; // go to next bikeId
-							}
-						}
-					}
-				} else
-					continue;
-			}
-
-		}
+		statusSetter(BookingStatus.BOOKED, BikeStatus.RESERVED, true);
 
 		// proceed to schedule delivery
 		if (customer.getMode().equals(CollectionMode.DELIVERY)) {
@@ -63,8 +42,8 @@ public class Booking implements Deliverable {
 			// DeliveryServiceFactory;
 			DeliveryService deliveryService = DeliveryServiceFactory.getDeliveryService();
 
-			deliveryService.scheduleDelivery(this, quote.getBikeProvider().getShopLocation(), customer.getLocation(),
-					customer.getDateRange().getStart());
+			deliveryService.scheduleDelivery(this, quote.getBikeProvider().getShopLocation(),
+					customer.getLocation(), customer.getDateRange().getStart());
 
 		}
 	}
@@ -85,7 +64,7 @@ public class Booking implements Deliverable {
 		return bookingNumber;
 	}
 
-	public void setBookingNumber(String bookingNumber) {
+	public void setBookingNumber() {
 
 		this.bookingNumber = "BN" + QuoteFinder.NumberOfRequests;
 	}
@@ -98,10 +77,23 @@ public class Booking implements Deliverable {
 		this.isBooked = isBooked;
 	}
 
-	public void statusSetter(String bkingStatus, String bkStatus) {
+	public void onPickup() {
+		// updates bike status on pick up
+		// bike status changes to Dispatched
+		statusSetter(BookingStatus.DISPATCHED, BikeStatus.PICKED_UP, false);
 
-		BikeStatus bikeStatus = BikeStatus.valueOf(bkStatus);
-		BookingStatus bookingStatus = BookingStatus.valueOf(bkingStatus);
+	}
+
+	public void onDropoff() {
+		// bike status changes to Hired
+		// booking status Delivered
+
+		statusSetter(BookingStatus.DELIVERED, BikeStatus.HIRED, false);
+
+	}
+	
+	
+	public void statusSetter(BookingStatus bookingStatus, BikeStatus bikeStatus, boolean flag) {
 
 		for (int i = 0; i < QuoteFinder.getAllProviders().size(); i++) {
 
@@ -113,6 +105,7 @@ public class Booking implements Deliverable {
 								// reserve upon booking
 								QuoteFinder.getAllProviders().get(i).updateBikeStatus(bikeId, bikeStatus);
 								this.setStatus(bookingStatus);
+								if (flag) QuoteFinder.getAllProviders().get(i).getBookings().add(this);
 								break; // go to next bikeId
 							}
 						}
@@ -122,21 +115,6 @@ public class Booking implements Deliverable {
 			}
 
 		}
-
-	}
-
-	public void onPickup() {
-		// updates bike status on pick up
-		// bike status changes to Dispatched
-		statusSetter(BookingStatus.DISPATCHED.toString(), BikeStatus.PICKED_UP.toString());
-
-	}
-
-	public void onDropoff() {
-		// bike status changes to Hired
-		// booking status Delivered
-
-		statusSetter(BookingStatus.DELIVERED.toString(), BikeStatus.HIRED.toString());
 
 	}
 
