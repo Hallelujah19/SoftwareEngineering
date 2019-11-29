@@ -27,6 +27,12 @@ public void testReturn() {
 		Quote result = TestData_FindQuote.customer.getChosenQuote();
 		BikeProvider provider = result.getBikeProvider();
 		Booking booking = new Booking(TestData_FindQuote.customer);
+		// set up delivery service
+		if (TestData_FindQuote.customer.getMode() == CollectionMode.DELIVERY) {
+			DeliveryServiceFactory.setupMockDeliveryService();
+			booking.setDeliveryService((MockDeliveryService) DeliveryServiceFactory.getDeliveryService());
+		}
+		// proceed to book quote
 		booking.bookQuote();
 		String bookingNumber = booking.getBookingNumber(); 
 		
