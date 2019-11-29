@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
 
-class ImplementPricingTest {
+class PricingPolicyTest {
 
 	Location testLocation = new Location("testPostCode", "testAddress");
 	OpeningHours testHours = new OpeningHours();
