@@ -29,6 +29,10 @@ public class Quote {
 		return s;
 	}
 	
+	public BigDecimal getTotalPrice() {
+		return totalPrice;
+	}
+	
 	public BikeProvider getBikeProvider () {
 		return this.bikeProvider;
 	}
