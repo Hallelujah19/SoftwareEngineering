@@ -1,3 +1,5 @@
+package uk.ac.ed.bikerental;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
