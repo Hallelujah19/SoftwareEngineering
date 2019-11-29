@@ -1,4 +1,3 @@
-
 enum BookingStatus {
 
 	BOOKED, DISPATCHED, DELIVERED, RETURNED
@@ -104,16 +103,14 @@ public class Booking implements Deliverable {
 							// reserve upon booking
 							QuoteFinder.getAllProviders().get(i).updateBikeStatus(bikeId, bikeStatus);
 							this.setStatus(bookingStatus);
-							if (flag)
-								QuoteFinder.getAllProviders().get(i).getBookings().add(this);
 							break; // go to next bikeId
 						}
 					}
 				}
+				if (flag) QuoteFinder.getAllProviders().get(i).getBookings().add(this);
 			} else
-				continue;
+				continue; // to next provider
 		}
-
 	}
 
 }
