@@ -1,143 +1,105 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.condition.DisabledIf;
-import org.junit.jupiter.api.condition.EnabledIf;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
-class TestBooking {
+public class TestBooking {
 
-	// create a customer who has a chosen quote which is to be booked
-		Customer customer = TestData.testCustomer;//change this to TestData_Quote
-		CollectionMode mode = customer.getMode();
-		
-	// Book the quote
-		Booking book = new Booking(customer);
-		
-		ArrayList<Bike> bikes = customer.getChosenQuote().getBikeProvider().getBikes();
+	boolean booked = true;
+	CollectionMode mode;
+	Booking booking;
 
-		boolean booked = true ;
-		
-	//tests  if all the bikes that the customer wants have been booked 
-   
-		@Test	
-  void  testBooked(ArrayList<Bike> bikeList) {
-	  
-	  boolean booked = true ;
-	  BookingStatus booking = BookingStatus.BOOKED;
-	 
-		 assertEquals(booking,book.getStatus());
+	// tests if all the bikes that the customer wants have been booked
 
-	  
-	  for(Bike bike:bikes)
-				{
-					if (bike.getBikeStatus() == BikeStatus.RESERVED) {
-						booked = booked || true;
-					} else {
-						booked = booked ||false;
-					}
+	@BeforeEach
+	void setup() {
+
+	}
+
+	@Test
+	public void isBooked() {
+
+		// create a customer and set up system
+		TestData_FindQuote.setUpProvider(20);
+		TestData_FindQuote.createCustomer();
+
+		// get quotes for the customer
+		TestData_FindQuote.customer.BrowseQuotes();
+		TestData_FindQuote.customer.setChosenIndex(1);
+		TestData_FindQuote.customer.selectQuote();
+		// Book the quote
+		booking = new Booking(TestData_FindQuote.customer);
+		booking.bookQuote();
+
+		ArrayList<Bike> bikes = new ArrayList<>();
+		for (String bikeId : TestData_FindQuote.customer.getChosenQuote().getBikeIds())
+			for (Bike bike : TestData_FindQuote.customer.getChosenQuote().getBikeProvider().getBikes()) {
+				if (bike.getBikeId().equals(bikeId)) {
+					bikes.add(bike);
+					break; // go to next bike id
 				}
-	
-	 assertEquals(true,booked);
-	 
-	 /*if(customer.getMode() == CollectionMode.DELIVERY) {
-	 for() {
-		 
-	 }
-	 }*/
-	
-  }
-      
-      
-      
-   //Tests if pickup has been recorded  
-		 @Test	
-	     @EnabledIf("mode == CollectionMode.DELIVERY")      
-  void  testOnPickUp(ArrayList<Bike> bikeList) {
-    	  
-    	  
-    	  
-    	  book.onPickup();
-    	  
-    	  boolean picked = true ;
-    	  BookingStatus booking = BookingStatus.DISPATCHED;
-    	 
-    		 assertEquals(booking,book.getStatus());
+			}
 
-    	  
-    	  for(Bike bike:bikes)
-    				{
-    					if (bike.getBikeStatus() == BikeStatus.PICKED_UP) {
-    						booked = booked || true;
-    					} else {
-    						booked = booked ||false;
-    					}
-    				}
-    	
-    	 assertEquals(true,booked);
-    	 
-    	 /*if(customer.getMode() == CollectionMode.DELIVERY) {
-    	 for() {
-    		 
-    	 }
-    	 }*/
-    	
-      }
-      
-   
-      
-      //  
-      @Test	
-      @EnabledIf("mode == CollectionMode.DELIVERY")
-      void  testOnDropOff(ArrayList<Bike> bikeList) {
-        	  
-        	  
-        	  
-        	  book.onDropoff();
-        	  
-        	  boolean dropped = true ;
-        	  BookingStatus booking = BookingStatus.DELIVERED;
-        	 
-        		 assertEquals(booking,book.getStatus());
+		boolean booked = true;
+		BookingStatus bookingStatus = BookingStatus.BOOKED;
 
-        	  
-        	  for(Bike bike:bikes)
-        				{
-        					if (bike.getBikeStatus() == BikeStatus.HIRED) {
-        						booked = booked || true;
-        					} else {
-        						booked = booked ||false;
-        					}
-        				}
-        	
-        	 assertEquals(true,booked);
-        	 
-        	 /*if(customer.getMode() == CollectionMode.DELIVERY) {
-        	 for() {
-        		 
-        	 }
-        	 }*/
-        	
-          }
-      
-      
-	  
+		assertEquals(bookingStatus, booking.getStatus());
 
-    
+		for (Bike bike : bikes) {
+			if (bike.getBikeStatus() == BikeStatus.RESERVED)
+				booked = booked && true;
+			else {
+				booked = false;
+				break;
+			}
+		}
 
+		assertEquals(true, booked);
 
-  
+		if (mode == CollectionMode.DELIVERY) {
+			
+			booked = true;
+			
+			booking.onPickup();
 
-  		
+			bookingStatus = BookingStatus.DISPATCHED;
 
+			assertEquals(bookingStatus, booking.getStatus());
 
+			for (Bike bike : bikes) {
+				if (bike.getBikeStatus() == BikeStatus.PICKED_UP) {
+					booked = booked && true;
+				} else {
+					booked = false;
+					break;
+				}
+			}
 
+			assertEquals(true, booked);
+			
+			booked = true;
 
+			booking.onDropoff();
 
+			bookingStatus = BookingStatus.DELIVERED;
 
+			assertEquals(bookingStatus, booking.getStatus());
 
+			for (Bike bike : bikes) {
+				if (bike.getBikeStatus() == BikeStatus.HIRED) {
+					booked = booked && true;
+				} else {
+					booked = false;
+					break;
+				}
+			}
+
+			assertEquals(true, booked);
+
+		}
+	}
 
 }
