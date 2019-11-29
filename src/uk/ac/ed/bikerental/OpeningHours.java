@@ -1,3 +1,4 @@
+package uk.ac.ed.bikerental;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
