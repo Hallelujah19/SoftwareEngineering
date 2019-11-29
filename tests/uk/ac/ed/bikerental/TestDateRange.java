@@ -42,7 +42,6 @@ class TestDateRange {
     	 assertEquals(false,this.dateRange1.overlaps(dateRange3));
     	 assertEquals(false,this.dateRange2.overlaps(dateRange3));
     	
-        fail();
     }
 
     // TODO: put some of your own unit tests here
