@@ -1,5 +1,4 @@
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
@@ -32,8 +31,15 @@ public class TestBooking {
 		TestData_FindQuote.customer.selectQuote();
 		// Book the quote
 		booking = new Booking(TestData_FindQuote.customer);
+		// set up delivery service
+		if (TestData_FindQuote.customer.getMode() == CollectionMode.DELIVERY) {
+			DeliveryServiceFactory.setupMockDeliveryService();
+			booking.setDeliveryService((MockDeliveryService) DeliveryServiceFactory.getDeliveryService());
+		}
+		// proceed to book quote
 		booking.bookQuote();
-
+		
+		// extract bikes from the quote for testing
 		ArrayList<Bike> bikes = new ArrayList<>();
 		for (String bikeId : TestData_FindQuote.customer.getChosenQuote().getBikeIds())
 			for (Bike bike : TestData_FindQuote.customer.getChosenQuote().getBikeProvider().getBikes()) {
@@ -42,8 +48,9 @@ public class TestBooking {
 					break; // go to next bike id
 				}
 			}
+		
+		boolean booked = true; // temporary variable
 
-		boolean booked = true;
 		BookingStatus bookingStatus = BookingStatus.BOOKED;
 
 		assertEquals(bookingStatus, booking.getStatus());
@@ -59,10 +66,10 @@ public class TestBooking {
 
 		assertEquals(true, booked);
 
-		if (mode == CollectionMode.DELIVERY) {
-			
+		if (TestData_FindQuote.customer.getMode() == CollectionMode.DELIVERY) {
+
 			booked = true;
-			
+
 			booking.onPickup();
 
 			bookingStatus = BookingStatus.DISPATCHED;
@@ -79,7 +86,7 @@ public class TestBooking {
 			}
 
 			assertEquals(true, booked);
-			
+
 			booked = true;
 
 			booking.onDropoff();
