@@ -31,12 +31,14 @@ public void testReturn() {
 		String bookingNumber = booking.getBookingNumber(); 
 		
 		//partner could be used to test if the message is sent to the partner
-		 int index = 0;
+		 int index = 7;
 		 BikeProvider partnerProvider = QuoteFinder.getAllProviders().get(index);
+		 
 
 		 
 		//Setup partner
 		provider.setPartnerProvider(QuoteFinder.getAllProviders().get(index));
+		partnerProvider.setPartnerProvider(provider);
 		
 		//System.out.println(provider.bookings.isEmpty());
 		
@@ -48,7 +50,7 @@ public void testReturn() {
 		
 
 		if (isProviders) {
-			for (Booking theBooking : provider.bookings) {
+			for (Booking theBooking : provider.getBookings()) {
 				if (theBooking.getBookingNumber().equals(bookingNumber)) {
 					allAvailable = allAvailable || (BookingStatus.RETURNED == theBooking.getStatus());
 					for (String bikeID : theBooking.getQuote().getBikeIds()) {
