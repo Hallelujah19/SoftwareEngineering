@@ -55,13 +55,4 @@ class TestDateRange {
 
     // TODO: put some of your own unit tests here
 }
-    void testOverlapsFalse() {
-        // TODO: check we can see when two date ranges  don't overlap
-    	 assertEquals(false,this.dateRange1.overlaps(dateRange2));
-    	 assertEquals(false,this.dateRange1.overlaps(dateRange3));
-    	 assertEquals(false,this.dateRange2.overlaps(dateRange3));
-    	
-    }
-
-    // TODO: put some of your own unit tests here
-}
+    
