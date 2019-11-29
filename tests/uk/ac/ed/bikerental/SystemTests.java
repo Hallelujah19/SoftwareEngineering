@@ -1,9 +1,9 @@
-package uk.ac.ed.bikerental;
 import org.junit.Test;
 import org.junit.jupiter.api.*;
 
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -124,6 +124,39 @@ public class SystemTests {
 				}
 			}
 
+		// check if quote rightly calculates prices
+		BigDecimal total = BigDecimal.valueOf(0);
+		BigDecimal temp = BigDecimal.valueOf(0);
+
+		for (int i = 0; i < QuoteFinder.getAllProviders().size(); i++) {
+			// pick out the provider
+			if (QuoteFinder.getAllProviders().get(i).equals(booking.getQuote().getBikeProvider())) {
+				// for each bike id in quote
+				for (String bikeId : booking.getQuote().getBikeIds()) {
+					// go through all the bikes in this provider
+					for (Bike bike : QuoteFinder.getAllProviders().get(i).getBikes()) {
+						// pick out the bike
+						if (bike.getBikeId().equals(bikeId)) {
+							// get daily price
+							temp = temp.add(
+									QuoteFinder.getAllProviders().get(i).getDailyPricePerBikeType(bike.getBikeType()));
+							// ... and multiply by the number of days
+							temp = temp
+									.multiply(BigDecimal.valueOf(booking.getCustomer().getDateRange().getDuration()));
+							total = total.add(temp); // add to total
+							temp = BigDecimal.valueOf(0); // reset
+						}
+					}
+				}
+				break; // finished calculation
+			} else
+				continue;
+		}
+		
+		System.out.println(total);
+		System.out.println(booking.getQuote().getTotalPrice());
+		assertEquals(booking.getQuote().getTotalPrice().stripTrailingZeros(), total.stripTrailingZeros());
+
 		boolean booked = true; // temporary variable
 
 		BookingStatus bookingStatus = BookingStatus.BOOKED;
@@ -207,7 +240,7 @@ public class SystemTests {
 		// proceed to book quote
 		booking.bookQuote();
 		String bookingNumber = booking.getBookingNumber();
-		
+
 		// partner could be used to test if the message is sent to the partner
 		int index = 7;
 		BikeProvider partnerProvider = QuoteFinder.getAllProviders().get(index);
