@@ -1,3 +1,5 @@
+package uk.ac.ed.bikerental;
+
 /**
  * This class is used for modelling a location
  * by means of its address and postcode, as well
