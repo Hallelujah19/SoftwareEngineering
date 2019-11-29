@@ -1,3 +1,4 @@
+
 enum BookingStatus {
 
 	BOOKED, DISPATCHED, DELIVERED, RETURNED
@@ -10,45 +11,47 @@ public class Booking implements Deliverable {
 	private String bookingNumber;
 	private boolean isBooked;
 	private Quote quote; // set from customer attribute
-
+	public DeliveryService deliveryService;
+	
 	public Quote getQuote() {
 		return quote;
 	}
+	
+	public void setDeliveryService(DeliveryService deliveryService) {
+		this.deliveryService = deliveryService;
+	}
 
+	public DeliveryService getDeliveryService() {
+		return deliveryService;
+	}
+	
 	public Customer getCustomer() {
 		return customer;
 	}
 
 	private Customer customer;
 
-//change the constructor as the unique number is set from within the system
+	// constructor
 	public Booking(Customer customer) {
+		
 		this.customer = customer;
 		this.quote = customer.getChosenQuote();
 		this.setBookingNumber(); // immediately set unique booking number
+		
 	}
 
 	public void bookQuote() { // execute this method if the customer
 								// has decided to book a quote
-
 		statusSetter(BookingStatus.BOOKED, BikeStatus.RESERVED, true);
 
 		// proceed to schedule delivery
-		if (customer.getMode().equals(CollectionMode.DELIVERY)) {
-
-			// DeliveryServiceFactory;
-			DeliveryService deliveryService = DeliveryServiceFactory.getDeliveryService();
-
+		if (customer.getMode() == CollectionMode.DELIVERY) {
+			
 			deliveryService.scheduleDelivery(this, quote.getBikeProvider().getShopLocation(),
 					customer.getLocation(), customer.getDateRange().getStart());
-
 		}
 	}
 	
-	public void goToPayment() {
-
-	}
-
 	public BookingStatus getStatus() {
 		return status;
 	}
@@ -62,10 +65,9 @@ public class Booking implements Deliverable {
 	}
 
 	public void setBookingNumber() {
-
 		this.bookingNumber = "BN" + QuoteFinder.NumberOfRequests;
 	}
-
+	
 	public boolean getIsBooked() {
 		return isBooked;
 	}
@@ -84,13 +86,12 @@ public class Booking implements Deliverable {
 	public void onDropoff() {
 		// bike status changes to Hired
 		// booking status Delivered
-
 		statusSetter(BookingStatus.DELIVERED, BikeStatus.HIRED, false);
 
 	}
-
+	
 	public void statusSetter(BookingStatus bookingStatus, BikeStatus bikeStatus, boolean flag) {
-
+		
 		this.setStatus(bookingStatus);
 		
 		for (int i = 0; i < QuoteFinder.getAllProviders().size(); i++) {
@@ -109,7 +110,7 @@ public class Booking implements Deliverable {
 					}
 				}
 				if (flag) QuoteFinder.getAllProviders().get(i).getBookings().add(this);
-				break;
+				break; // end of booking registration for provider
 			} else
 				continue; // to next provider
 		}
